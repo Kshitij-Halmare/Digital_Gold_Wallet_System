@@ -16,10 +16,8 @@ public class Payments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id")
     private Integer payment_id;
-
-    @Column(name = "amount", nullable = false)
+    @Column(name = "amount", precision = 18, scale = 2, nullable = false)
     private BigDecimal amount;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
     private PaymentMethod paymentMethod;

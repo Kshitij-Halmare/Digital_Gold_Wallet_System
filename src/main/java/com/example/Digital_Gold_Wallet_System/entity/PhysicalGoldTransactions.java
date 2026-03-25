@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 public class PhysicalGoldTransactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int transaction_id;
+    private int transactionId;
     @Column(precision = 10, scale = 2)
     private BigDecimal quantity;
-    @Column(name = "created_at")
+    @Column(columnDefinition = "DATETIME", name = "created_at")
     private LocalDateTime createdAt;
 }
