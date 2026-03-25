@@ -2,7 +2,7 @@ package com.example.Digital_Gold_Wallet_System.entity;
 
 import com.example.Digital_Gold_Wallet_System.enums.PaymentMethod;
 import com.example.Digital_Gold_Wallet_System.enums.PaymentStatus;
-import com.example.Digital_Gold_Wallet_System.enums.TransactionType;
+import com.example.Digital_Gold_Wallet_System.enums.PaymentTransactionType;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,7 +25,7 @@ public class Payments {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type")
-    private TransactionType transactionType;
+    private PaymentTransactionType paymentTransactionType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
