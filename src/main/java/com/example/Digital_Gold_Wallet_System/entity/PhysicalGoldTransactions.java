@@ -11,6 +11,6 @@ public class PhysicalGoldTransactions {
     private int transactionId;
     @Column(precision = 10, scale = 2)
     private BigDecimal quantity;
-    @Column(name = "created_at")
+    @Column(columnDefinition = "DATETIME", name = "created_at")
     private LocalDateTime createdAt;
 }
