@@ -1,5 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
-public class VirtualGoldHoldingsRepo {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface VirtualGoldHoldingsRepo extends JpaRepository<VirtualGoldHoldingsRepo, Integer>{
 
 }
