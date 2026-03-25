@@ -1,7 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.entity;
 
 import com.example.Digital_Gold_Wallet_System.enums.TransactionStatus;
-import com.example.Digital_Gold_Wallet_System.enums.TransactionType;
+import com.example.Digital_Gold_Wallet_System.enums.PaymentTransactionType;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,7 +17,7 @@ public class TransactionHistory {
     private Integer transactionId;
 
     @Enumerated(EnumType.STRING)
-    private TransactionType transactionType;
+    private PaymentTransactionType transactionType;
 
     @Enumerated(EnumType.STRING)
     private TransactionStatus transactionStatus;

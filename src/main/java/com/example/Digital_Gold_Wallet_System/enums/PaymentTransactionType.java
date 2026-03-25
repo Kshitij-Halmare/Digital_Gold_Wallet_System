@@ -1,14 +1,13 @@
 package com.example.Digital_Gold_Wallet_System.enums;
 
-public enum TransactionType {
+public enum PaymentTransactionType {
 
-    BUY("Buy"),
-    SELL("Sell"),
-    CONVERT_TO_PHYSICAL("Convert to Physical");
+    CREDITED("Credited to wallet"),
+    DEBITED("Debited from wallet");
 
     private final String value;
 
-    TransactionType(String value) {
+    PaymentTransactionType(String value) {
         this.value = value;
     }
 
