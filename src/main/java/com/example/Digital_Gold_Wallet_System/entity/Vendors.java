@@ -1,7 +1,6 @@
 package com.example.Digital_Gold_Wallet_System.entity;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
