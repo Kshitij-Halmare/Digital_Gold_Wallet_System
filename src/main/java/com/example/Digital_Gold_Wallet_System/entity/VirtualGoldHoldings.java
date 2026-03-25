@@ -1,6 +1,5 @@
 package com.example.Digital_Gold_Wallet_System.entity;
 
-<<<<<<< HEAD
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import jakarta.persistence.Column;
@@ -23,8 +22,4 @@ public class VirtualGoldHoldings {
     @Column(columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
-=======
-public class VirtualGoldHoldings {
-
->>>>>>> 14f0dd6b1796064b9098d424ac5335349a7a2b53
 }
