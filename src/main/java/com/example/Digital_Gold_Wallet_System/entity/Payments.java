@@ -32,7 +32,7 @@ public class Payments {
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
 
-    @Column(name = "created_at")
+    @Column(columnDefinition = "DATETIME", name = "created_at")
     private LocalDateTime createdAt;
 
 }

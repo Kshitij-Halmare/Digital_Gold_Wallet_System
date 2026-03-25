@@ -19,7 +19,7 @@ public class Vendors {
     private BigDecimal totalGoldQuantity;
     @Column(precision = 18, scale = 2)
     private BigDecimal currentGoldPrice;
-    @Column(name = "createdAt")
+    @Column(columnDefinition = "DATETIME", name = "created_at")
     private LocalDateTime createdAt;
 
 }
