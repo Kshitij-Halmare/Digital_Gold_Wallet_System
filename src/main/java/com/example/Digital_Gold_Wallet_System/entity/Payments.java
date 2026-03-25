@@ -6,6 +6,7 @@ import com.example.Digital_Gold_Wallet_System.enums.PaymentTransactionType;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,8 +17,8 @@ public class Payments {
     @Column(name = "payment_id")
     private Integer payment_id;
 
-    @Column(name = "amount", precision = 18, scale = 2, nullable = false)
-    private Double amount;
+    @Column(name = "amount", nullable = false)
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
