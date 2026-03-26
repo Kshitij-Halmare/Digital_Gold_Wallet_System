@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -19,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class VirtualGoldHoldingsControllerTest {
+public class VirtualGoldHoldingsControllerTest{
     @Autowired
     private MockMvc mockMvc;
 
@@ -27,7 +25,7 @@ public class VirtualGoldHoldingsControllerTest {
     private VirtualGoldHoldingsRepo repository;
 
     @Test
-    void testGetAllHoldings_Positive() throws Exception {
+    void testGetAllHoldings_Positive() throws Exception{
         VirtualGoldHoldings h = new VirtualGoldHoldings();
         h.setQuantity(BigDecimal.valueOf(10));
         h.setCreatedAt(LocalDateTime.now());
@@ -39,7 +37,7 @@ public class VirtualGoldHoldingsControllerTest {
     }
 
     @Test
-    void testGetAllHoldings_Empty() throws Exception {
+    void testGetAllHoldings_Empty() throws Exception{
         mockMvc.perform(get("/virtual_gold_holdings"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._embedded.virtual__gold_holdings").doesNotExist());

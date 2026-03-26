@@ -34,4 +34,6 @@ public class Payments {
     @JoinColumn(name = "usersId")
     private Users user;
 
+
+
 }
