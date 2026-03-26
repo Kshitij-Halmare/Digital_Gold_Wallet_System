@@ -8,6 +8,7 @@ public enum PaymentMethod {
     AMAZON_PAY("Amazon Pay"),
     PHONEPE("PhonePe"),
     PAYTM("Paytm"),
+    UPI("UPI"),
     BANK_TRANSFER("Bank Transfer");
 
     private final String value;
