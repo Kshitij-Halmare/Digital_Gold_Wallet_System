@@ -35,10 +35,6 @@ public class TransactionControllerRepoTest {
 
     @Autowired
     private UsersRepo usersRepo;
-
-    // ─────────────────────────────────────────────
-    // Helper: create branch
-    // ─────────────────────────────────────────────
     private VendorBranches createBranch() {
         Addresses address = new Addresses();
         address.setCity("Pune");
@@ -54,9 +50,6 @@ public class TransactionControllerRepoTest {
         return branchRepo.save(branch);
     }
 
-    // ─────────────────────────────────────────────
-    // Helper: create user
-    // ─────────────────────────────────────────────
     private Users createUser() {
         Users user = new Users();
         user.setName("Test User");
@@ -67,9 +60,6 @@ public class TransactionControllerRepoTest {
         return usersRepo.save(user);
     }
 
-    // ─────────────────────────────────────────────
-    // Helper: create transaction
-    // ─────────────────────────────────────────────
     private TransactionHistory createTransaction(
             VendorBranches branch,
             Users user,
@@ -88,10 +78,6 @@ public class TransactionControllerRepoTest {
 
         return transactionRepo.save(tx);
     }
-
-    // ─────────────────────────────────────────────
-    // TC-20
-    // ─────────────────────────────────────────────
     @Test
     @DisplayName("TC-20: getTransactionsByBranchId - Positive")
     void tc20_getTransactionsByBranchId_positive() {
@@ -105,7 +91,6 @@ public class TransactionControllerRepoTest {
         result.forEach(tx -> assertEquals(branch.getBranchId(), tx.getBranch().getBranchId()));
     }
 
-    // TC-21
     @Test
     @DisplayName("TC-21: getTransactionsByBranchId - Negative")
     void tc21_getTransactionsByBranchId_notFound() {
@@ -114,7 +99,6 @@ public class TransactionControllerRepoTest {
         assertTrue(result.isEmpty());
     }
 
-    // TC-22
     @Test
     @DisplayName("TC-22: getTransactionsByUserId - Positive")
     void tc22_getTransactionsByUserId_positive() {
@@ -128,7 +112,6 @@ public class TransactionControllerRepoTest {
         result.forEach(tx -> assertEquals(user.getUserId(), tx.getUser().getUserId()));
     }
 
-    // TC-23
     @Test
     @DisplayName("TC-23: getTransactionsByUserId - Negative")
     void tc23_getTransactionsByUserId_notFound() {
@@ -137,7 +120,6 @@ public class TransactionControllerRepoTest {
         assertTrue(result.isEmpty());
     }
 
-    // TC-24
     @Test
     @DisplayName("TC-24: getTransactionsByType - Positive")
     void tc24_getTransactionsByType_positive() {
@@ -151,7 +133,6 @@ public class TransactionControllerRepoTest {
         result.forEach(tx -> assertEquals(PaymentTransactionType.CREDITED, tx.getTransactionType()));
     }
 
-    // TC-25
     @Test
     @DisplayName("TC-25: getTransactionsByType - Negative")
     void tc25_getTransactionsByType_noMatch() {
@@ -164,7 +145,6 @@ public class TransactionControllerRepoTest {
         assertTrue(result.isEmpty());
     }
 
-    // TC-26
     @Test
     @DisplayName("TC-26: getTransactionsByStatus - Positive")
     void tc26_getTransactionsByStatus_positive() {
@@ -178,7 +158,6 @@ public class TransactionControllerRepoTest {
         result.forEach(tx -> assertEquals(TransactionStatus.SUCCESS, tx.getTransactionStatus()));
     }
 
-    // TC-27
     @Test
     @DisplayName("TC-27: getTransactionsByStatus - Negative")
     void tc27_getTransactionsByStatus_noMatch() {
@@ -191,7 +170,6 @@ public class TransactionControllerRepoTest {
         assertTrue(result.isEmpty());
     }
 
-    // TC-28
     @Test
     @DisplayName("TC-28: getTransactionsByDateRange - Positive")
     void tc28_getTransactionsByDateRange_positive() {
@@ -208,7 +186,6 @@ public class TransactionControllerRepoTest {
         assertFalse(result.isEmpty());
     }
 
-    // TC-29
     @Test
     @DisplayName("TC-29: getTransactionsByDateRange - Negative")
     void tc29_getTransactionsByDateRange_invalidRange() {
