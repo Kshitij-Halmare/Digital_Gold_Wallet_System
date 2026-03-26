@@ -16,10 +16,15 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
+
     private String email;
+
     private String name;
-    private BigDecimal balance;
-    @Column(columnDefinition = "DATETIME", name="createdAt")
+
+    // Big Decimal handles floating point issues better than Double.
+    private BigDecimal balance; 
+
+    @Column(columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
 }
