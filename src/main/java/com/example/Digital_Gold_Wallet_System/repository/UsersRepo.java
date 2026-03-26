@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
+import java.util.List;
+
 @RepositoryRestResource(path = "users")
 @CrossOrigin(origins = "*")
 public interface UsersRepo extends JpaRepository<Users, Integer> {
