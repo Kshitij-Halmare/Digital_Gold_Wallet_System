@@ -19,19 +19,15 @@ public class Payments {
     @Column(name = "amount", precision = 18, scale = 2, nullable = false)
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)
-    @Column(name = "paymentMethod")
+    @Column(name = "payment_method")
     private PaymentMethod paymentMethod;
     @Enumerated(EnumType.STRING)
-    @Column(name = "transactionType")
+    @Column(name = "transaction_type")
     private PaymentTransactionType paymentTransactionType;
     @Enumerated(EnumType.STRING)
-    @Column(name = "paymentStatus")
+    @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
-    @Column(name = "createdAt", columnDefinition = "DATETIME")
+    @Column(name = "created_at", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
-
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "usersId")
-    private Users user;
 
 }
