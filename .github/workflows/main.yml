@@ -13,6 +13,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: digitalgoldwallet
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       # 1. Checkout code
       - name: Checkout repository
@@ -26,11 +40,20 @@ jobs:
           java-version: '17'
           cache: maven
 
-      # 3. Build project
-      - name: Build with Maven
-        run: mvn clean install -DskipTests
+      # 3. Wait for MySQL
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            nc -z localhost 3306 && echo "MySQL is up!" && break
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
 
-      # 4. Upload JAR artifact
+      # 4. Build & Run Tests
+      - name: Build with Maven (WITH TESTS)
+        run: mvn clean install
+
+      # 5. Upload JAR
       - name: Upload JAR file
         uses: actions/upload-artifact@v4
         with:
