@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 @Data
 public class Addresses {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "addressId")
@@ -24,9 +23,9 @@ public class Addresses {
 
     private String country;
 
-    @OneToMany(mappedBy = "addresses")
+    @OneToMany(mappedBy = "address")
     private List<Users> users;
 
-    @OneToMany(mappedBy = "addresses", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     private List<VendorBranches> vendorBranches;
 }

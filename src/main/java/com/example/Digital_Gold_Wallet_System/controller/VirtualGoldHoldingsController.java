@@ -11,14 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/virtual_gold_holding")
 public class VirtualGoldHoldingsController {
 
-    @Autowired
-    private VirtualGoldHoldingsRepo repository;
-
-    @GetMapping
-    public ResponseEntity<List<VirtualGoldHoldings>> getAllHoldings() {
-        return ResponseEntity.ok(repository.findAll());
-    }
 }

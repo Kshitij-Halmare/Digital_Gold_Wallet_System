@@ -32,5 +32,5 @@ public class Vendors {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "vendors", cascade = CascadeType.ALL)
-    private List<VendorBranches> vendorBranches;
+    private List<VendorBranches> branches;
 }

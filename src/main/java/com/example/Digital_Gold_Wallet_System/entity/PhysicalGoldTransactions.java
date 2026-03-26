@@ -14,6 +14,16 @@ public class PhysicalGoldTransactions {
     private int transactionId;
     @Column(precision = 10, scale = 2)
     private BigDecimal quantity;
-    @Column(columnDefinition = "DATETIME", name = "created_at")
+    @Column(columnDefinition = "DATETIME", name = "createdAt")
     private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private Users user;
+
+    @ManyToOne
+    @JoinColumn(name = "branchId")
+    private VendorBranches branch;
+    @ManyToOne
+    @JoinColumn(name = "deliveryAddressId")
+    private Addresses deliveryAddress;
 }
