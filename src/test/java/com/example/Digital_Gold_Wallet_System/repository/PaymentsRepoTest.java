@@ -39,7 +39,7 @@ public class PaymentsRepoTest {
         Payments savedPayment = paymentsRepository.save(payment);
 
         assertNotNull(savedPayment);
-        assertNotNull(savedPayment.getPayment_id());
+        assertNotNull(savedPayment.getPaymentId());
         assertEquals(new BigDecimal("5000.00"), savedPayment.getAmount());
     }
     @Test
@@ -55,7 +55,7 @@ public class PaymentsRepoTest {
 
         Payments savedPayment = paymentsRepository.save(payment);
 
-        Optional<Payments> foundPayment = paymentsRepository.findById(savedPayment.getPayment_id());
+        Optional<Payments> foundPayment = paymentsRepository.findById(savedPayment.getPaymentId());
         assertTrue(foundPayment.isPresent());
     }
 
