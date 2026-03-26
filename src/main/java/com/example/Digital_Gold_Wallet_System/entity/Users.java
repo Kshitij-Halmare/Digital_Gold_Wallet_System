@@ -24,7 +24,7 @@ public class Users {
     // Big Decimal handles floating point issues better than Double.
     private BigDecimal balance; 
 
-    @Column(columnDefinition = "DATETIME", name = "created_at")
+    @Column(columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
 }

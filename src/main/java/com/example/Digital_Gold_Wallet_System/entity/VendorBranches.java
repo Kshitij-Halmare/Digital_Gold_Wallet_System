@@ -11,7 +11,7 @@ public class VendorBranches {
     private Integer branchId;
     @Column(precision = 18, scale = 2)
     private BigDecimal quantity;
-    @Column(columnDefinition = "DATETIME", name = "created_at")
+    @Column(name = "createdAt")
     private LocalDateTime createdAt;
 
 }
