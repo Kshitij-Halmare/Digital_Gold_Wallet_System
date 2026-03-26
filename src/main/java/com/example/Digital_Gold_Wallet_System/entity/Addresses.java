@@ -23,9 +23,9 @@ public class Addresses {
 
     private String country;
 
-    @OneToMany(mappedBy = "addresses")
+    @OneToMany(mappedBy = "address")
     private List<Users> users;
 
-    @OneToMany(mappedBy = "addresses", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     private List<VendorBranches> vendorBranches;
 }

@@ -24,7 +24,7 @@ public class Users {
 
     @ManyToOne
     @JoinColumn(name = "addressId")
-    private Addresses addresses;
+    private Addresses address;
 
     @OneToMany(mappedBy = "user")
     private List<VirtualGoldHoldings> virtualGoldHoldings;
