@@ -55,6 +55,11 @@ class UsersControllerTest {
         mockMvc.perform(get("/users/" + savedUser.getUserId()))
                 .andExpect(status().isOk());
 
+<<<<<<< HEAD
+=======
+        mockMvc.perform(get("/users/1"))
+                .andExpect(status().isOk());
+>>>>>>> f13e24192bd5b28bae33848ecedf75a9bda8d0bf
     }
 
 
