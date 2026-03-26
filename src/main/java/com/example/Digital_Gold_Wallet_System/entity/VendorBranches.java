@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
@@ -17,22 +16,12 @@ public class VendorBranches {
     private BigDecimal quantity;
     @Column(name = "createdAt", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
-    @ManyToOne
-    @JoinColumn(name = "vendorId")
-    private Vendors vendors;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "addressId")
-    private Addresses addresses;
+    @JoinColumn(name = "addressess_address_id")
+    private Addresses address;
 
-    @OneToMany(mappedBy = "branch")
-    private List<TransactionHistory> transactions;
-
-    @OneToMany(mappedBy = "branch")
-    private List<VirtualGoldHoldings> holdings;
-
-    @OneToMany(mappedBy = "branch")
-    private List<PhysicalGoldTransactions> physicalTransactions;
-
+    @ManyToOne
+    private Vendors vendors;
 }
 
