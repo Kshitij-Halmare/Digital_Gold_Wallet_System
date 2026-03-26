@@ -6,12 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
-import com.example.Digital_Gold_Wallet_System.enums.PaymentMethod;
-import com.example.Digital_Gold_Wallet_System.enums.PaymentStatus;
-import com.example.Digital_Gold_Wallet_System.enums.PaymentTransactionType;
+import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentMethod;
+import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentStatus;
+import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentTransactionType;
 
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;

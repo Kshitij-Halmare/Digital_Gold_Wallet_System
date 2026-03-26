@@ -20,4 +20,5 @@ public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Intege
     List<VendorBranches> findByAddressStateContainingIgnoreCase(String state);
     List<VendorBranches> findByAddressCityOrderByQuantityAsc(String city);
     List<VendorBranches> findByAddressCityOrderByQuantityDesc(String city);
+
 }

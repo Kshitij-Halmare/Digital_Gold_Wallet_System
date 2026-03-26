@@ -1,6 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -13,7 +14,8 @@ public class VendorBranches {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer branchId;
-    @Column(precision = 18, scale = 2)
+    @NotNull
+    @Column(nullable = false,precision = 18, scale = 2)
     private BigDecimal quantity;
     @Column(name = "createdAt", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
