@@ -23,7 +23,7 @@ public class VendorBranches {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId")
-    private Addresses addresses;
+    private Addresses address;
 
     @OneToMany(mappedBy = "branch")
     private List<TransactionHistory> transactions;

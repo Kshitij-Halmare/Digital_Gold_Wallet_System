@@ -32,4 +32,5 @@ public class TransactionHistory {
     private VendorBranches branch;
     @Column(name = "createdAt", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
+
 }
