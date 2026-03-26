@@ -1,8 +1,8 @@
 package com.example.Digital_Gold_Wallet_System.entity;
 
-import com.example.Digital_Gold_Wallet_System.enums.PaymentMethod;
-import com.example.Digital_Gold_Wallet_System.enums.PaymentStatus;
-import com.example.Digital_Gold_Wallet_System.enums.PaymentTransactionType;
+import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentMethod;
+import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentStatus;
+import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentTransactionType;
 import jakarta.persistence.*;
 import lombok.Data;
 

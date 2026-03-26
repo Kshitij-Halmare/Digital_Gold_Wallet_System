@@ -1,4 +1,4 @@
-package com.example.Digital_Gold_Wallet_System.enums;
+package com.example.Digital_Gold_Wallet_System.entity.enums;
 
 public enum PaymentTransactionType {
 

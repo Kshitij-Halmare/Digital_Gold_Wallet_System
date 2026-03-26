@@ -1,8 +1,8 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
 import com.example.Digital_Gold_Wallet_System.entity.TransactionHistory;
-import com.example.Digital_Gold_Wallet_System.enums.PaymentTransactionType;
-import com.example.Digital_Gold_Wallet_System.enums.TransactionStatus;
+import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentTransactionType;
+import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
