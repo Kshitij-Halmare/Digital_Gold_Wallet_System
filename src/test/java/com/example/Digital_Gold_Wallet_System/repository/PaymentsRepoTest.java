@@ -42,5 +42,21 @@ public class PaymentsRepoTest {
         assertNotNull(savedPayment.getPayment_id());
         assertEquals(new BigDecimal("5000.00"), savedPayment.getAmount());
     }
+    @Test
+    @DisplayName("Test Find by ID")
+    void testFindByIdPayment() {
+
+        Payments payment = new Payments();
+        payment.setAmount(new BigDecimal("5000.00"));
+        payment.setPaymentMethod(PaymentMethod.CREDIT_CARD);
+        payment.setPaymentTransactionType(PaymentTransactionType.CREDITED);
+        payment.setPaymentStatus(PaymentStatus.SUCCESS);
+        payment.setCreatedAt(LocalDateTime.now());
+
+        Payments savedPayment = paymentsRepository.save(payment);
+
+        Optional<Payments> foundPayment = paymentsRepository.findById(savedPayment.getPayment_id());
+        assertTrue(foundPayment.isPresent());
+    }
 
 }
