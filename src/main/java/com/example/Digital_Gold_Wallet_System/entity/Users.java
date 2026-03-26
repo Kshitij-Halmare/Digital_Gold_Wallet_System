@@ -17,17 +17,14 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
-    @Column(length = 100)
     private String email;
 
-    @Column(length = 100)
     private String name;
 
     // Big Decimal handles floating point issues better than Double.
-    @Column(precision = 18, scale = 2)
     private BigDecimal balance; 
 
-    @Column(columnDefinition = "DATETIME", name = "created_at")
+    @Column(columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
 }
