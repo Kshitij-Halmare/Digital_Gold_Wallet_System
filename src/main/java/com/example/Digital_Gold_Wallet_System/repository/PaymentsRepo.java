@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+
 public interface PaymentsRepo extends JpaRepository<Payments, Integer> {
     List<Payments> findByPaymentStatus(PaymentStatus paymentStatus);
 
