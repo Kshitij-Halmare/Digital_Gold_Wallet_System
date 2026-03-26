@@ -3,12 +3,10 @@ name: Java CI - Test with MySQL, Build & Package
 on:
   push:
     branches:
-      - "**"
+      - main
   pull_request:
     branches:
       - main
-      - master
-
 jobs:
   build-test-package:
     name: Run Tests on Real MySQL → Build JAR → Upload
