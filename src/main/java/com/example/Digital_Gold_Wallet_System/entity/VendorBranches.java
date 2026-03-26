@@ -17,7 +17,8 @@ public class VendorBranches {
     @Column(name = "createdAt", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "addressess_address_id")
     private Addresses addressess;
 
     @ManyToOne
