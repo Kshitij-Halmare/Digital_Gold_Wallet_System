@@ -1,10 +1,13 @@
 package com.example.Digital_Gold_Wallet_System.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Data
 public class VendorBranches {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,5 +17,10 @@ public class VendorBranches {
     @Column(name = "createdAt", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
+    @ManyToOne
+    private Addresses addressess;
+
+    @ManyToOne
+    private Vendors vendors;
 }
 

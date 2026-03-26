@@ -31,6 +31,6 @@ public class Vendors {
     @Column(columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
-//    @OneToMany(mappedBy = "vendors", cascade = CascadeType.ALL)
-//    private List<VendorBranches> vendorBranches;
+    @OneToMany(mappedBy = "vendors", cascade = CascadeType.ALL)
+    private List<VendorBranches> vendorBranches;
 }

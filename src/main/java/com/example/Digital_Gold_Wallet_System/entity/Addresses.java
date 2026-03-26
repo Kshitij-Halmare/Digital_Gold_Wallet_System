@@ -23,6 +23,6 @@ public class Addresses {
 
     private String country;
 
-//    @OneToMany(mappedBy = "addressess", cascade = CascadeType.ALL)
-//    private List<VendorBranches> vendorBranches;
+    @OneToMany(mappedBy = "addressess", cascade = CascadeType.ALL)
+    private List<VendorBranches> vendorBranches;
 }
