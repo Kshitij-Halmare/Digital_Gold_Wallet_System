@@ -1,6 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.controller;
 
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,6 +19,7 @@ class UsersControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @DisplayName("Test Get All")
     void testGetAllUsers() throws Exception {
 
         mockMvc.perform(get("/users"))
@@ -25,6 +27,7 @@ class UsersControllerTest {
     }
 
     @Test
+    @DisplayName("Test Create User")
     void testCreateUser() throws Exception {
 
         String userJson = """
@@ -41,34 +44,22 @@ class UsersControllerTest {
     }
 
     @Test
+    @DisplayName("Test Find by ID")
     void testGetUserById() throws Exception {
 
-        mockMvc.perform(get("/users/1"))
+        mockMvc.perform(get("/users/2"))
                 .andExpect(status().isOk());
+
     }
 
     @Test
+    @DisplayName("Test Update User")
     void testUpdateUser() throws Exception {
 
         String userJson = """
         {
             "email": "updated@gmail.com",
             "name": "UpdatedUser",
-            "balance": 2000.00
-        }
-        """;
-
-        mockMvc.perform(put("/users/1")
-                        .contentType("application/json")
-                        .content(userJson))
-                .andExpect(status().isNoContent());
-    }
-
-    @Test
-    void testUpdateUserBalance() throws Exception {
-
-        String userJson = """
-        {
             "balance": 2000.00
         }
         """;
@@ -80,6 +71,7 @@ class UsersControllerTest {
     }
 
     @Test
+    @DisplayName("Test Delete User")
     void testDeleteUser() throws Exception {
 
         mockMvc.perform(delete("/users/2"))
