@@ -2,7 +2,6 @@ package com.example.Digital_Gold_Wallet_System.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.generator.values.internal.GeneratedValuesImpl;
 
 import java.util.List;
 

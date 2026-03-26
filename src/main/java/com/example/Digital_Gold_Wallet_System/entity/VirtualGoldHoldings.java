@@ -15,6 +15,8 @@ public class VirtualGoldHoldings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer holdingId;
+
+    @Column(precision = 18, scale = 2)
     private BigDecimal quantity;
     @Column(columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
