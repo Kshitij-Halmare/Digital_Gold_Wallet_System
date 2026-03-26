@@ -14,27 +14,12 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Covers VendorBranchController transferGold test cases (S.No 40–44) at repository layer.
- * Transfer logic is simulated directly via repo operations — no Controller or Service used.
- *
- * Transfer rules enforced:
- *   - Source branch must exist         (TC 41)
- *   - Destination branch must exist    (TC 42)
- *   - Source != Destination            (TC 43)
- *   - Source must have sufficient qty  (TC 44)
- *   - On success: source qty decreases, destination qty increases (TC 40)
- */
 @SpringBootTest
 @Transactional
 class VendorBranchTransferRepoTest {
 
     @Autowired
     private VendorBranchesRepo branchRepo;
-
-    // ─────────────────────────────────────────────────────────────
-    // Helper: create a persisted branch with given quantity
-    // ─────────────────────────────────────────────────────────────
     private VendorBranches createBranch(String city, BigDecimal quantity) {
         Addresses address = new Addresses();
         address.setCity(city);
@@ -49,30 +34,21 @@ class VendorBranchTransferRepoTest {
         return branchRepo.save(branch);
     }
 
-    /**
-     * Simulates the transfer logic that would live in VendorBranchService.
-     * Returns true on success, throws IllegalArgumentException on business rule violation.
-     */
     private void performTransfer(Integer sourceBranchId, Integer destinationBranchId, BigDecimal transferQty) {
-        // Rule 1: source must exist
         VendorBranches source = branchRepo.findById(sourceBranchId)
                 .orElseThrow(() -> new IllegalArgumentException("Source branch not found: " + sourceBranchId));
 
-        // Rule 2: destination must exist
         VendorBranches destination = branchRepo.findById(destinationBranchId)
                 .orElseThrow(() -> new IllegalArgumentException("Destination branch not found: " + destinationBranchId));
 
-        // Rule 3: source != destination
         if (sourceBranchId.equals(destinationBranchId)) {
             throw new IllegalArgumentException("Source and destination branch cannot be the same");
         }
 
-        // Rule 4: sufficient quantity
         if (source.getQuantity().compareTo(transferQty) < 0) {
             throw new IllegalArgumentException("Insufficient gold quantity in source branch");
         }
 
-        // Perform transfer
         source.setQuantity(source.getQuantity().subtract(transferQty));
         destination.setQuantity(destination.getQuantity().add(transferQty));
 
@@ -80,11 +56,6 @@ class VendorBranchTransferRepoTest {
         branchRepo.save(destination);
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // TC 40: POST /transfer/{source}/{dest} — Positive: valid transfer
-    //        source=1 (qty=100), dest=2 (qty=50), transfer=30
-    //        Expected: source.qty=70, dest.qty=80
-    // ─────────────────────────────────────────────────────────────
     @Test
     @DisplayName("TC-40: transferGold - Positive: valid source and destination → transfer successful")
     void tc40_transferGold_positive() {
@@ -103,9 +74,6 @@ class VendorBranchTransferRepoTest {
                 "Destination quantity should be increased to 80 after transfer of 30");
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // TC 41: Negative: source branch not found (id=999)
-    // ─────────────────────────────────────────────────────────────
     @Test
     @DisplayName("TC-41: transferGold - Negative: source branch id=999 → not found exception")
     void tc41_transferGold_sourceNotFound() {
@@ -120,9 +88,6 @@ class VendorBranchTransferRepoTest {
                 "Exception message should indicate source not found");
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // TC 42: Negative: destination branch not found (id=999)
-    // ─────────────────────────────────────────────────────────────
     @Test
     @DisplayName("TC-42: transferGold - Negative: destination branch id=999 → not found exception")
     void tc42_transferGold_destinationNotFound() {
@@ -137,9 +102,6 @@ class VendorBranchTransferRepoTest {
                 "Exception message should indicate destination not found");
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // TC 43: Negative: source == destination (same branch)
-    // ─────────────────────────────────────────────────────────────
     @Test
     @DisplayName("TC-43: transferGold - Negative: source == destination → same branch exception")
     void tc43_transferGold_sameBranch() {
@@ -154,10 +116,6 @@ class VendorBranchTransferRepoTest {
                 "Exception message should indicate same branch error");
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // TC 44: Negative: insufficient gold quantity in source branch
-    //        source.qty=10, transfer=50 → should fail
-    // ─────────────────────────────────────────────────────────────
     @Test
     @DisplayName("TC-44: transferGold - Negative: insufficient quantity in source → exception")
     void tc44_transferGold_insufficientQuantity() {
