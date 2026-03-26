@@ -25,13 +25,13 @@ public class PhysicalGoldTransactionsControllerTest {
     @Test
     void testFindByBranchId_NegativeValue() throws Exception{
         //Positive scenario: when the branch Id is negative
-        mockMvc.perform(get("/physicalgoldtransaction/search/findByBranch_BranchId").param("branchId","-10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").doesNotExist());
+        mockMvc.perform(get("/physicalgoldtransaction/search/findByBranch_BranchId").param("branchId","-10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").isEmpty());
     }
 
     @Test
     void testFindByBranchId_NotFound() throws Exception{
         //Negative scenario: when the branch id does not exist
-        mockMvc.perform(get("/physicalgoldtransaction/search/findByBranch_BranchId").param("branchId","999")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").doesNotExist());
+        mockMvc.perform(get("/physicalgoldtransaction/search/findByBranch_BranchId").param("branchId","999")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").isEmpty());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class PhysicalGoldTransactionsControllerTest {
     void testGetByQuantity_NegativeValue() throws Exception{
         //Negative scenario
 
-        mockMvc.perform(get("/physicalgoldtransaction/search/findByQuantity").param("quantity","-10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").doesNotExist());
+        mockMvc.perform(get("/physicalgoldtransaction/search/findByQuantity").param("quantity","-10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").isEmpty());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class PhysicalGoldTransactionsControllerTest {
         mockMvc.perform(get("/physicalgoldtransaction/search/findByDeliveryAddress_City")
                         .param("city", "UnknownCity"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded").doesNotExist());
+                .andExpect(jsonPath("$._embedded").isEmpty());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class PhysicalGoldTransactionsControllerTest {
         mockMvc.perform(get("/physicalgoldtransaction/search/findByDeliveryAddress_Street")
                         .param("street", "Unknown Street"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded").doesNotExist());
+                .andExpect(jsonPath("$._embedded").isEmpty());
     }
 
     @Test
@@ -103,7 +103,7 @@ public class PhysicalGoldTransactionsControllerTest {
         mockMvc.perform(get("/physicalgoldtransaction/search/findByDeliveryAddress_PostalCode")
                         .param("postalCode", "0000000"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded").doesNotExist());
+                .andExpect(jsonPath("$._embedded").isEmpty());
     }
 
 
@@ -122,7 +122,7 @@ public class PhysicalGoldTransactionsControllerTest {
         mockMvc.perform(get("/physicalgoldtransaction/search/findByDeliveryAddress_State")
                         .param("state", "UnknownState"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded").doesNotExist());
+                .andExpect(jsonPath("$._embedded").isEmpty());
     }
 
     @Test
@@ -140,7 +140,7 @@ public class PhysicalGoldTransactionsControllerTest {
         mockMvc.perform(get("/physicalgoldtransaction/search/findByDeliveryAddress_Country")
                         .param("country", "UnknownCountry"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded").doesNotExist());
+                .andExpect(jsonPath("$._embedded").isEmpty());
     }
 
     @Test
@@ -158,7 +158,7 @@ public class PhysicalGoldTransactionsControllerTest {
         mockMvc.perform(get("/physicalgoldtransaction/search/findByUser_Name")
                         .param("name", "abcd"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded").doesNotExist());
+                .andExpect(jsonPath("$._embedded").isEmpty());
     }
 
 
