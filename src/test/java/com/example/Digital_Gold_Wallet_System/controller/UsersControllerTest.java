@@ -1,5 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.controller;
 
+import com.example.Digital_Gold_Wallet_System.entity.Users;
+import com.example.Digital_Gold_Wallet_System.repository.UsersRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,6 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class UsersControllerTest {
 
+    @Autowired
+    UsersRepo usersRepo;
     @Autowired
     private MockMvc mockMvc;
 
@@ -41,6 +45,15 @@ class UsersControllerTest {
 
     @Test
     void testGetUserById() throws Exception {
+
+        Users user = new Users();
+        user.setEmail("test@gmail.com");
+        user.setName("Pratham");
+
+        Users savedUser = usersRepo.save(user);
+
+        mockMvc.perform(get("/users/" + savedUser.getUserId()))
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/users/1"))
                 .andExpect(status().isOk());
