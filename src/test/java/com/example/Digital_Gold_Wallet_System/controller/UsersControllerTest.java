@@ -43,7 +43,7 @@ class UsersControllerTest {
     @Test
     void testGetUserById() throws Exception {
 
-        mockMvc.perform(get("/users/1"))
+        mockMvc.perform(get("/users/2"))
                 .andExpect(status().isOk());
 
     }
@@ -59,7 +59,7 @@ class UsersControllerTest {
         }
         """;
 
-        mockMvc.perform(put("/users/1")
+        mockMvc.perform(put("/users/2")
                         .contentType("application/json")
                         .content(userJson))
                 .andExpect(status().isNoContent());
