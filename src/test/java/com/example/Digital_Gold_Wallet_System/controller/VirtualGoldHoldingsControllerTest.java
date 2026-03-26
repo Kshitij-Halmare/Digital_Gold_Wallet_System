@@ -33,7 +33,7 @@ public class VirtualGoldHoldingsControllerTest{
 
         mockMvc.perform(get("/virtual_gold_holdings"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.virtualGoldHoldingses").exists());
+                .andExpect(jsonPath("$._embedded.holdings").exists());
     }
 
     @Test
