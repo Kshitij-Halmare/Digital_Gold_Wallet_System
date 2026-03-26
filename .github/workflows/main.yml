@@ -1,24 +1,145 @@
-name: Java CI (Skip Tests)
+name: Java CI - Test with MySQL, Build & Package
 
 on:
+  # Runs on direct push to main/master only
   push:
-    branches: [ "main", "sanika-feature" ]
+    branches:
+      - main
+      - master
+
+  # Runs on PR targeting main/master (covers all feature branches)
+  # This will NOT double-run when you push to a feature branch and open a PR
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+      - master
+
+# Cancel any in-progress run for the same branch/PR if a new push comes in
+# This prevents stale runs from wasting CI minutes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  build-test-package:
+    name: Run Tests on Real MySQL → Build JAR → Upload
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: digital_gold_wallet_test
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpass
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     steps:
-      - name: Checkout code
+      # 1. Checkout source code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      # 2. Set up Java 17
+      - name: Set Up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          java-version: "17"
+          distribution: "temurin"
 
-      - name: Build project (SKIP TESTS)
-        run: mvn clean install -DskipTests
+      # 3. Cache Maven dependencies
+      - name: Cache Maven Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # 4. Wait for MySQL to be fully ready
+      - name: Wait for MySQL to be Ready
+        run: |
+          echo "Waiting for MySQL to accept connections..."
+          until mysqladmin ping -h 127.0.0.1 -P 3306 -u testuser -ptestpass --silent; do
+            echo "  still waiting..."
+            sleep 3
+          done
+          echo "MySQL is ready!"
+
+      # 5. Verify MySQL DB is accessible
+      - name: Verify MySQL Database
+        run: |
+          mysql -h 127.0.0.1 -P 3306 -u testuser -ptestpass -e "SHOW DATABASES;"
+          mysql -h 127.0.0.1 -P 3306 -u testuser -ptestpass -e "USE digital_gold_wallet_test; SHOW TABLES;"
+
+      # 6. ✅ Run tests ONCE + build JAR in a single Maven lifecycle call.
+      #    mvn package = compile → test → package (one execution, no duplication).
+      #    If any test fails → pipeline stops → JAR is never created.
+      - name: ✅ Run All Tests & Build JAR (single Maven run)
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/digital_gold_wallet_test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+          SPRING_DATASOURCE_USERNAME: testuser
+          SPRING_DATASOURCE_PASSWORD: testpass
+          SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+          SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+          SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
+          SPRING_JPA_SHOW_SQL: "true"
+        run: |
+          echo "=========================================="
+          echo "  STARTING: compile → test → package"
+          echo "=========================================="
+          mvn package \
+            --no-transfer-progress \
+            -Dsurefire.printSummary=true
+          echo "=========================================="
+          echo "  DONE. JAR built:"
+          ls -lh target/*.jar
+          echo "=========================================="
+
+      # 7. Print test results directly in logs
+      - name: Print Test Results Summary
+        if: always()
+        run: |
+          echo "=========================================="
+          echo "  TEST RESULTS SUMMARY"
+          echo "=========================================="
+          if [ -d target/surefire-reports ]; then
+            for report in target/surefire-reports/*.txt; do
+              echo "--- $report ---"
+              cat "$report"
+              echo ""
+            done
+          else
+            echo "No surefire reports found!"
+          fi
+
+      # 8. Upload surefire reports as artifact
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ github.run_number }}
+          path: target/surefire-reports/
+          retention-days: 14
+
+      # 9. Confirm create-drop worked - tables should be gone after tests
+      - name: Check DB After Tests (tables should be empty)
+        if: always()
+        run: |
+          echo "Tables remaining after tests (should be empty due to create-drop):"
+          mysql -h 127.0.0.1 -P 3306 -u testuser -ptestpass \
+            -e "USE digital_gold_wallet_test; SHOW TABLES;"
+
+      # 10. Upload the JAR artifact
+      - name: Upload JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: digital-gold-wallet-${{ github.run_number }}
+          path: target/*.jar
+          retention-days: 30
