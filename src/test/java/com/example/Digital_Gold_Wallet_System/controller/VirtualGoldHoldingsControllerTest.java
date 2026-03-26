@@ -1,5 +1,6 @@
 package com.example.Digital_Gold_Wallet_System.controller;
 
+<<<<<<< HEAD
 import com.example.Digital_Gold_Wallet_System.entity.VirtualGoldHoldings;
 import com.example.Digital_Gold_Wallet_System.repository.VirtualGoldHoldingsRepo;
 import jakarta.transaction.Transactional;
@@ -44,4 +45,8 @@ public class VirtualGoldHoldingsControllerTest{
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._embedded.virtual__gold_holdings").doesNotExist());
     }
+=======
+public class VirtualGoldHoldingsControllerTest{
+
+>>>>>>> 9797fb572b0d9603b07b6202366c7d7b9801a95c
 }
