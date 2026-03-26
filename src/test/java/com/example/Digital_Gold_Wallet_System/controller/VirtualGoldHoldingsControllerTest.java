@@ -47,7 +47,7 @@ public class VirtualGoldHoldingsControllerTest{
     void testGetAllHoldings_Empty() throws Exception{
         mockMvc.perform(get("/virtual_gold_holdings"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.holdings").doesNotExist());
+                .andExpect(jsonPath("$._embedded.holdings").isEmpty());
     }
 
     @Test
