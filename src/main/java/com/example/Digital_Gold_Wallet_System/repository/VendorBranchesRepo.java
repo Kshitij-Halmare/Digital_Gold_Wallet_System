@@ -16,8 +16,10 @@ public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Intege
     List<VendorBranches> findByAddressPostalCode(String postalCode);
     List<VendorBranches> findByQuantityBetween(BigDecimal min, BigDecimal max);
     List<VendorBranches> findByAddressCityAndAddressState(String city, String state);
-    List<VendorBranches> findByAddressStateAndAddressCountry(String state, String country);    List<VendorBranches> findByAddressCityContainingIgnoreCase(String city);
+    List<VendorBranches> findByAddressStateAndAddressCountry(String state, String country);
+    List<VendorBranches> findByAddressCityContainingIgnoreCase(String city);
     List<VendorBranches> findByAddressStateContainingIgnoreCase(String state);
     List<VendorBranches> findByAddressCityOrderByQuantityAsc(String city);
     List<VendorBranches> findByAddressCityOrderByQuantityDesc(String city);
+
 }
