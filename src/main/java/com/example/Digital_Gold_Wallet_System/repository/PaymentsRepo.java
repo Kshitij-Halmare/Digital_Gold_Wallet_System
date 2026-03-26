@@ -1,9 +1,9 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
 import com.example.Digital_Gold_Wallet_System.entity.Payments;
-import com.example.Digital_Gold_Wallet_System.enums.PaymentMethod;
-import com.example.Digital_Gold_Wallet_System.enums.PaymentStatus;
-import com.example.Digital_Gold_Wallet_System.enums.PaymentTransactionType;
+import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentMethod;
+import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentStatus;
+import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentTransactionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
