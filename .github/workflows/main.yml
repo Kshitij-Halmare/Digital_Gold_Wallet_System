@@ -1,13 +1,24 @@
 name: Java CI - Test with MySQL, Build & Package
 
 on:
+  # Runs on direct push to main/master only
   push:
     branches:
-      - "**"
+      - main
+      - master
+
+  # Runs on PR targeting main/master (covers all feature branches)
+  # This will NOT double-run when you push to a feature branch and open a PR
   pull_request:
     branches:
       - main
       - master
+
+# Cancel any in-progress run for the same branch/PR if a new push comes in
+# This prevents stale runs from wasting CI minutes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-test-package:
@@ -61,18 +72,16 @@ jobs:
           done
           echo "MySQL is ready!"
 
-      # 5. Verify MySQL DB exists and is accessible
+      # 5. Verify MySQL DB is accessible
       - name: Verify MySQL Database
         run: |
           mysql -h 127.0.0.1 -P 3306 -u testuser -ptestpass -e "SHOW DATABASES;"
           mysql -h 127.0.0.1 -P 3306 -u testuser -ptestpass -e "USE digital_gold_wallet_test; SHOW TABLES;"
 
-      # 6. ✅ RUN ALL TEST CASES
-      #    - DO NOT use -DskipTests here, ever
-      #    - maven-surefire-plugin will print PASS/FAIL for every test method
-      #    - create-drop: Hibernate creates all entity tables before tests,
-      #      drops them all after Spring context closes
-      - name: ✅ Run ALL Test Cases
+      # 6. ✅ Run tests ONCE + build JAR in a single Maven lifecycle call.
+      #    mvn package = compile → test → package (one execution, no duplication).
+      #    If any test fails → pipeline stops → JAR is never created.
+      - name: ✅ Run All Tests & Build JAR (single Maven run)
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/digital_gold_wallet_test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
           SPRING_DATASOURCE_USERNAME: testuser
@@ -83,24 +92,23 @@ jobs:
           SPRING_JPA_SHOW_SQL: "true"
         run: |
           echo "=========================================="
-          echo "  STARTING TEST EXECUTION"
+          echo "  STARTING: compile → test → package"
           echo "=========================================="
-          mvn test \
+          mvn package \
             --no-transfer-progress \
-            -Dsurefire.printSummary=true \
-            -Dsurefire.failIfNoSpecifiedTests=false
+            -Dsurefire.printSummary=true
           echo "=========================================="
-          echo "  TEST EXECUTION COMPLETE"
+          echo "  DONE. JAR built:"
+          ls -lh target/*.jar
           echo "=========================================="
 
-      # 7. Print test summary directly in the logs
+      # 7. Print test results directly in logs
       - name: Print Test Results Summary
         if: always()
         run: |
           echo "=========================================="
           echo "  TEST RESULTS SUMMARY"
           echo "=========================================="
-          # Print each surefire .txt report (shows PASSED/FAILED per test)
           if [ -d target/surefire-reports ]; then
             for report in target/surefire-reports/*.txt; do
               echo "--- $report ---"
@@ -108,10 +116,10 @@ jobs:
               echo ""
             done
           else
-            echo "No surefire reports found - tests may not have run!"
+            echo "No surefire reports found!"
           fi
 
-      # 8. Upload full surefire XML + TXT reports as artifact
+      # 8. Upload surefire reports as artifact
       - name: Upload Test Reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -120,28 +128,15 @@ jobs:
           path: target/surefire-reports/
           retention-days: 14
 
-      # 9. Show which tables Hibernate created and then dropped
-      - name: Check DB After Tests (should be empty - create-drop worked)
+      # 9. Confirm create-drop worked - tables should be gone after tests
+      - name: Check DB After Tests (tables should be empty)
         if: always()
         run: |
           echo "Tables remaining after tests (should be empty due to create-drop):"
           mysql -h 127.0.0.1 -P 3306 -u testuser -ptestpass \
             -e "USE digital_gold_wallet_test; SHOW TABLES;"
 
-      # 10. Build JAR only after all tests pass
-      #     -DskipTests is ONLY here because tests already ran in step 6
-      - name: Build JAR (tests already verified above)
-        env:
-          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/digital_gold_wallet_test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-          SPRING_DATASOURCE_USERNAME: testuser
-          SPRING_DATASOURCE_PASSWORD: testpass
-          SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
-        run: |
-          mvn package -DskipTests --no-transfer-progress
-          echo "JAR built successfully:"
-          ls -lh target/*.jar
-
-      # 11. Upload JAR artifact
+      # 10. Upload the JAR artifact
       - name: Upload JAR Artifact
         uses: actions/upload-artifact@v4
         with:
