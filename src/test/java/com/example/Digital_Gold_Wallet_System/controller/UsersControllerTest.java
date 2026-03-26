@@ -45,6 +45,7 @@ class UsersControllerTest {
 
         mockMvc.perform(get("/users/1"))
                 .andExpect(status().isOk());
+
     }
 
     @Test
