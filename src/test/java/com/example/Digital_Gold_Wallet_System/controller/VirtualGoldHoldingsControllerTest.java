@@ -53,27 +53,27 @@ public class VirtualGoldHoldingsControllerTest{
     @Test
     void testGetByBranchId() throws Exception{
         //positive scenario:branch Id exists
-        mockMvc.perform(get("/virtual_gold_holdings/search/findByBranch_BranchId").param("branchId","1")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").exists());
+        mockMvc.perform(get("/virtual_gold_holdings/search/findByBranch_BranchId").param("branchId","1")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded.holdings").exists());
     }
 
     @Test
     void testGetByBranchId_NotFound() throws Exception{
         //positive scenario:branch Id does not exists
-        mockMvc.perform(get("/virtual_gold_holdings/search/findByBranch_BranchId").param("branchId","999")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").isEmpty());
+        mockMvc.perform(get("/virtual_gold_holdings/search/findByBranch_BranchId").param("branchId","999")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded.holdings").isEmpty());
     }
 
     @Test
     void testGetByQuantity() throws Exception{
         //positive Scenario: quantity exists
 
-        mockMvc.perform(get("/virtual_gold_holdings/search/findByQuantity").param("quantity","10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").exists());
+        mockMvc.perform(get("/virtual_gold_holdings/search/findByQuantity").param("quantity","10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded.holdings").exists());
     }
 
     @Test
     void testGetByQuantity_NegativeQuantity() throws Exception{
         //negative Scenario: quantity does not exists
 
-        mockMvc.perform(get("/virtual_gold_holdings/search/findByQuantity").param("quantity","-10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").isEmpty());
+        mockMvc.perform(get("/virtual_gold_holdings/search/findByQuantity").param("quantity","-10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded.holdings").isEmpty());
     }
 
 }
