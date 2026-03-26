@@ -18,6 +18,8 @@ public class Users {
     private Integer userId;
     private String email;
     private String name;
+
+    @Column(precision = 18, scale = 2)
     private BigDecimal balance;
     @Column(columnDefinition = "DATETIME", name="createdAt")
     private LocalDateTime createdAt;

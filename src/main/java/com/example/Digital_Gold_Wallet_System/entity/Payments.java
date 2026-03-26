@@ -21,16 +21,13 @@ public class Payments {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
     private PaymentMethod paymentMethod;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type")
     private PaymentTransactionType paymentTransactionType;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
-
-    @Column(name = "created_at")
+    @Column(name = "created_at", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
 }
