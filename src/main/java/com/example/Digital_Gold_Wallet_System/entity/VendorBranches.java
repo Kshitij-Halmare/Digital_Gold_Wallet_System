@@ -19,7 +19,7 @@ public class VendorBranches {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressess_address_id")
-    private Addresses addressess;
+    private Addresses address;
 
     @ManyToOne
     private Vendors vendors;

@@ -10,15 +10,14 @@ import java.util.List;
 @RepositoryRestResource(path = "branches")
 public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
 
-    List<VendorBranches> findByAddressessCity(String city);
-    List<VendorBranches> findByAddressessState(String state);
-    List<VendorBranches> findByAddressessCountry(String country);
-    List<VendorBranches> findByAddressessPostalCode(String postalCode);
+    List<VendorBranches> findByAddressesCity(String city);
+    List<VendorBranches> findByAddressesState(String state);
+    List<VendorBranches> findByAddressesCountry(String country);
+    List<VendorBranches> findByAddressesPostalCode(String postalCode);
     List<VendorBranches> findByQuantityBetween(BigDecimal min, BigDecimal max);
-    List<VendorBranches> findByAddressessCityAndAddressessState(String city, String state);
-    List<VendorBranches> findByAddressessStateAndAddressessCountry(String state, String country);
-    List<VendorBranches> findByAddressessCityContainingIgnoreCase(String city);
-    List<VendorBranches> findByAddressessStateContainingIgnoreCase(String state);
-    List<VendorBranches> findByAddressessCityOrderByQuantityAsc(String city);
-    List<VendorBranches> findByAddressessCityOrderByQuantityDesc(String city);
+    List<VendorBranches> findByAddressesCityAndAddressesState(String city, String state);
+    List<VendorBranches> findByAddressesStateAndAddressCountry(String state, String country);    List<VendorBranches> findByAddressesCityContainingIgnoreCase(String city);
+    List<VendorBranches> findByAddressesStateContainingIgnoreCase(String state);
+    List<VendorBranches> findByAddressesCityOrderByQuantityAsc(String city);
+    List<VendorBranches> findByAddressesCityOrderByQuantityDesc(String city);
 }
