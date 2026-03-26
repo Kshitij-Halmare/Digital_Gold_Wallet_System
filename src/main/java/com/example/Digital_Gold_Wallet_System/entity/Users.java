@@ -22,6 +22,7 @@ public class Users {
     private String name;
 
     // Big Decimal handles floating point issues better than Double.
+    @Column(precision = 18, scale = 2)
     private BigDecimal balance; 
 
     @Column(columnDefinition = "DATETIME")

@@ -28,7 +28,7 @@ public class TransactionHistory {
     @Column(precision = 18,scale=2)
     private BigDecimal amount;
 
-    @Column(name = "createdAt")
+    @Column(name = "createdAt", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
 

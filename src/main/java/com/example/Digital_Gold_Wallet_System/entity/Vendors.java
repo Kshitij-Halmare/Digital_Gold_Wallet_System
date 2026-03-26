@@ -28,8 +28,9 @@ public class Vendors {
     @Column(precision = 18, scale = 2)
     private BigDecimal currentGoldPrice;
 
+    @Column(columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "vendors", cascade = CascadeType.ALL)
-    private List<VendorBranches> vendorBranches;
+//    @OneToMany(mappedBy = "vendors", cascade = CascadeType.ALL)
+//    private List<VendorBranches> vendorBranches;
 }
