@@ -3,6 +3,8 @@ package com.example.Digital_Gold_Wallet_System.repository;
 import com.example.Digital_Gold_Wallet_System.entity.Vendors;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface  VendorsRepo extends JpaRepository<Vendors, Integer> {
+import java.util.List;
 
+public interface  VendorsRepo extends JpaRepository<Vendors, Integer> {
+    List<Vendors> findByVendorName(String vendorName);
 }
