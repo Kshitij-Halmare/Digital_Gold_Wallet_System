@@ -52,34 +52,34 @@ class VendorBranchesRepoTest {
     }
 
     @Test
-    void testFindByaddressesCity() {
+    void testFindByAddressCity() {
         createBranch("Pune", "MH", "India", "411001", BigDecimal.valueOf(20));
 
-        List<VendorBranches> result = repo.findByAddressesCity("Pune");
+        List<VendorBranches> result = repo.findByAddressCity("Pune");
         assertFalse(result.isEmpty());
     }
 
     @Test
-    void testFindByaddressesState() {
+    void testFindByAddressState() {
         createBranch("Nagpur", "MH", "India", "440001", BigDecimal.valueOf(15));
 
-        List<VendorBranches> result = repo.findByAddressesState("MH");
+        List<VendorBranches> result = repo.findByAddressState("MH");
         assertFalse(result.isEmpty());
     }
 
     @Test
-    void testFindByaddressesCountry() {
+    void testFindByAddressCountry() {
         createBranch("Delhi", "Delhi", "India", "110001", BigDecimal.valueOf(40));
 
-        List<VendorBranches> result = repo.findByAddressesCountry("India");
+        List<VendorBranches> result = repo.findByAddressCountry("India");
         assertFalse(result.isEmpty());
     }
 
     @Test
-    void testFindByaddressesPostalCode() {
+    void testFindByAddressPostalCode() {
         createBranch("Pune", "MH", "India", "411001", BigDecimal.valueOf(25));
 
-        List<VendorBranches> result = repo.findByAddressesPostalCode("411001");
+        List<VendorBranches> result = repo.findByAddressPostalCode("411001");
         assertFalse(result.isEmpty());
     }
 
@@ -101,7 +101,7 @@ class VendorBranchesRepoTest {
         createBranch("Pune", "MH", "India", "411001", BigDecimal.valueOf(20));
 
         List<VendorBranches> result =
-                repo.findByAddressesCityAndAddressesState("Pune", "MH");
+                repo.findByAddressCityAndAddressState("Pune", "MH");
 
         assertFalse(result.isEmpty());
     }
@@ -111,7 +111,7 @@ class VendorBranchesRepoTest {
         createBranch("Pune", "MH", "India", "411001", BigDecimal.valueOf(20));
 
         List<VendorBranches> result =
-                repo.findByAddressesCityContainingIgnoreCase("pun");
+                repo.findByAddressCityContainingIgnoreCase("pun");
 
         assertFalse(result.isEmpty());
     }
@@ -122,7 +122,7 @@ class VendorBranchesRepoTest {
         createBranch("Pune", "MH", "India", "2", BigDecimal.valueOf(10));
 
         List<VendorBranches> result =
-                repo.findByAddressesCityOrderByQuantityAsc("Pune");
+                repo.findByAddressCityOrderByQuantityAsc("Pune");
 
         assertTrue(result.get(0).getQuantity()
                 .compareTo(result.get(1).getQuantity()) <= 0);
@@ -134,7 +134,7 @@ class VendorBranchesRepoTest {
         createBranch("Pune", "MH", "India", "2", BigDecimal.valueOf(50));
 
         List<VendorBranches> result =
-                repo.findByAddressesCityOrderByQuantityDesc("Pune");
+                repo.findByAddressCityOrderByQuantityDesc("Pune");
 
         assertTrue(result.get(0).getQuantity()
                 .compareTo(result.get(1).getQuantity()) >= 0);

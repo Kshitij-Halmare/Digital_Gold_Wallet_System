@@ -18,7 +18,6 @@ public class VendorBranches {
     private LocalDateTime createdAt;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "addressess_address_id")
     private Addresses address;
 
     @ManyToOne
