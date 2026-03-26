@@ -4,14 +4,20 @@ import com.example.Digital_Gold_Wallet_System.entity.PhysicalGoldTransactions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.boot.test.context.SpringBootTest;
+=======
+>>>>>>> b0c6c2b (Add test case (#25))
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+<<<<<<< HEAD
 @SpringBootTest
+=======
+>>>>>>> b0c6c2b (Add test case (#25))
 public class PhysicalGoldTransactionsRepoTest {
 
 
