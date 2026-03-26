@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 @Data
 public class Addresses {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "addressId")

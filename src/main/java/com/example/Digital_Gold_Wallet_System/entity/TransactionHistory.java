@@ -22,6 +22,14 @@ public class TransactionHistory {
     private BigDecimal quantity;
     @Column(precision = 18,scale=2)
     private BigDecimal amount;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private Users user;
+
+    @ManyToOne
+    @JoinColumn(name = "branchId")
+    private VendorBranches branch;
     @Column(name = "createdAt", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 }
