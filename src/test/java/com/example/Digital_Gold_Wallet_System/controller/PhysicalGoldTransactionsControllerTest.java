@@ -31,7 +31,7 @@ public class PhysicalGoldTransactionsControllerTest {
     @Test
     void testFindByBranchId_NotFound() throws Exception{
         //Negative scenario: when the branch id does not exist
-        mockMvc.perform(get("/physicalgoldtransaction/search/findById").param("branchId","999")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").doesNotExist());
+        mockMvc.perform(get("/physicalgoldtransaction/search/findByBranch_BranchId").param("branchId","999")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").doesNotExist());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class PhysicalGoldTransactionsControllerTest {
     void testGetByQuantity_NegativeValue() throws Exception{
         //Negative scenario
 
-        mockMvc.perform(get("/physicalgoldtransaction/search/findByQuantity").param("quantity","-10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded.physicalGoldTransactionses").doesNotExist());
+        mockMvc.perform(get("/physicalgoldtransaction/search/findByQuantity").param("quantity","-10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded").doesNotExist());
     }
 
     @Test
