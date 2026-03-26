@@ -14,20 +14,24 @@ import java.time.LocalDateTime;
 public class Payments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "payment_id")
-    private Integer payment_id;
+    @Column(name = "paymentId")
+    private Integer paymentId;
     @Column(name = "amount", precision = 18, scale = 2, nullable = false)
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)
-    @Column(name = "payment_method")
+    @Column(name = "paymentMethod")
     private PaymentMethod paymentMethod;
     @Enumerated(EnumType.STRING)
-    @Column(name = "transaction_type")
+    @Column(name = "transactionType")
     private PaymentTransactionType paymentTransactionType;
     @Enumerated(EnumType.STRING)
-    @Column(name = "payment_status")
+    @Column(name = "paymentStatus")
     private PaymentStatus paymentStatus;
-    @Column(name = "created_at", columnDefinition = "DATETIME")
+    @Column(name = "createdAt", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "usersId")
+    private Users user;
 
 }
