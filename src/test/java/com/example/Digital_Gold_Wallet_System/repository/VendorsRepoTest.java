@@ -44,6 +44,8 @@ class VendorsRepoTest {
     @Test
     void testFindAll_VendorsExist() {
 
+        List<Vendors> vendors = vendorsRepo.findAll();
+
         Vendors v1 = new Vendors();
         v1.setVendorName("Tanishq");
         v1.setDescription("Gold Vendor");
@@ -71,7 +73,7 @@ class VendorsRepoTest {
 
         List<Vendors> result = vendorsRepo.findAll();
 
-        assertEquals(2, result.size());
+        assertEquals(vendors.size()+2, result.size());
     }
 
 

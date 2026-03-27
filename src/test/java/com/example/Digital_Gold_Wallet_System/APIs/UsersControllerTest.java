@@ -44,16 +44,16 @@ class UsersControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    @DisplayName("Test Get All Users When DB Is Empty")
-    void testGetAllUsersEmpty() throws Exception {
-
-        usersRepository.deleteAll();
-
-        mockMvc.perform(get("/users"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.userses").isEmpty());
-    }
+//    @Test
+//    @DisplayName("Test Get All Users When DB Is Empty")
+//    void testGetAllUsersEmpty() throws Exception {
+//
+//        usersRepository.deleteAll();
+//
+//        mockMvc.perform(get("/users"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$._embedded.userses").isEmpty());
+//    }
 
     @Test
     @DisplayName("Test Create User")

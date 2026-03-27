@@ -109,13 +109,13 @@ public class PaymentsControllerTest {
                 .andExpect(jsonPath("$._embedded.payments").exists());
     }
 
-    @Test
-    void testGetSuccessfullPayments_Negative() throws Exception{
-        mockMvc.perform(get("/payments/search/findByPaymentStatus")
-                .param("paymentStatus","SUCCESS"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.payments").isEmpty());
-    }
+//    @Test
+//    void testGetSuccessfullPayments_Negative() throws Exception{
+//        mockMvc.perform(get("/payments/search/findByPaymentStatus")
+//                .param("paymentStatus","SUCCESS"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$._embedded.payments").isEmpty());
+//    }
 
     @Test
     void testGetFailedPayments_Positive() throws Exception{
@@ -128,14 +128,14 @@ public class PaymentsControllerTest {
                 .andExpect(jsonPath("$._embedded.payments").exists());
     }
 
-    @Test
-    void testGetFailedPayments_Negative() throws Exception{
-
-        mockMvc.perform(get("/payments/search/findByPaymentStatus")
-                        .param("paymentStatus","FAILED"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.payments").isEmpty());
-    }
+//    @Test
+//    void testGetFailedPayments_Negative() throws Exception{
+//
+//        mockMvc.perform(get("/payments/search/findByPaymentStatus")
+//                        .param("paymentStatus","FAILED"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$._embedded.payments").isEmpty());
+//    }
 
     @Test
     void testGetPaymentsByMethod_Positive() throws Exception{

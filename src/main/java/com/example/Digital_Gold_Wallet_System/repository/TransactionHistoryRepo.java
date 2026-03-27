@@ -1,7 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
 import com.example.Digital_Gold_Wallet_System.entity.TransactionHistory;
-import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentTransactionType;
+import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionType;
 import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,7 +17,7 @@ public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory
     List<TransactionHistory> findByUserUserId(Integer userId);
 
     // Used by TC-24,25
-    List<TransactionHistory> findByTransactionType(PaymentTransactionType type);
+    List<TransactionHistory> findByTransactionType(TransactionType type);
 
     // Used by TC-26,27
     List<TransactionHistory> findByTransactionStatus(TransactionStatus status);
@@ -27,7 +27,7 @@ public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory
 
     // Used by TC-32,33
     List<TransactionHistory> findByBranchBranchIdAndTransactionType(
-            Integer branchId, PaymentTransactionType type);
+            Integer branchId, TransactionType type);
 
     // Used by TC-34,35
     List<TransactionHistory> findByBranchBranchIdAndTransactionStatus(
