@@ -1,4 +1,4 @@
-package com.example.Digital_Gold_Wallet_System.controller;
+package com.example.Digital_Gold_Wallet_System.APIs;
 
 import com.example.Digital_Gold_Wallet_System.entity.VirtualGoldHoldings;
 import com.example.Digital_Gold_Wallet_System.repository.VirtualGoldHoldingsRepo;

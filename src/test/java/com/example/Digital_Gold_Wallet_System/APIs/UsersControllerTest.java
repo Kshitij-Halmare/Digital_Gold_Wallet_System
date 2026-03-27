@@ -1,4 +1,4 @@
-package com.example.Digital_Gold_Wallet_System.controller;
+package com.example.Digital_Gold_Wallet_System.APIs;
 
 import com.example.Digital_Gold_Wallet_System.entity.Users;
 import com.example.Digital_Gold_Wallet_System.repository.UsersRepo;
@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -82,7 +80,6 @@ class UsersControllerTest {
     {
         "name": "AnotherUser",
         "email": "test@gmail.com",
-        "balance": 3000
     }
     """;
 
