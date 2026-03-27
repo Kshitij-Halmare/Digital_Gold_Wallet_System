@@ -6,7 +6,10 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource(path = "vendors")
-public interface  VendorsRepo extends JpaRepository<Vendors, Integer> {
+@RepositoryRestResource(
+        path = "vendors",
+        collectionResourceRel = "vendors"
+)
+public interface VendorsRepo extends JpaRepository<Vendors, Integer> {
     List<Vendors> findByVendorName(String vendorName);
 }
