@@ -46,9 +46,25 @@ class VendorsRepoTest {
 
         Vendors v1 = new Vendors();
         v1.setVendorName("Tanishq");
+        v1.setDescription("Gold Vendor");
+        v1.setContactPersonName("Rahul");
+        v1.setContactEmail("rahul@test.com");
+        v1.setContactPhone("9876543210");
+        v1.setWebsiteUrl("www.tanishq.com");
+        v1.setTotalGoldQuantity(new BigDecimal("100.50"));
+        v1.setCurrentGoldPrice(new BigDecimal("6000.75"));
+        v1.setCreatedAt(LocalDateTime.now());
 
         Vendors v2 = new Vendors();
         v2.setVendorName("Kalyan");
+        v2.setDescription("Gold Vendor");
+        v2.setContactPersonName("Rahul");
+        v2.setContactEmail("rahul@test.com");
+        v2.setContactPhone("9876543210");
+        v2.setWebsiteUrl("www.tanishq.com");
+        v2.setTotalGoldQuantity(new BigDecimal("100.50"));
+        v2.setCurrentGoldPrice(new BigDecimal("6000.75"));
+        v2.setCreatedAt(LocalDateTime.now());
 
         vendorsRepo.save(v1);
         vendorsRepo.save(v2);
@@ -64,6 +80,14 @@ class VendorsRepoTest {
 
         Vendors v = new Vendors();
         v.setVendorName("Malabar");
+        v.setDescription("Gold Vendor");
+        v.setContactPersonName("Rahul");
+        v.setContactEmail("rahul@test.com");
+        v.setContactPhone("9876543210");
+        v.setWebsiteUrl("www.tanishq.com");
+        v.setTotalGoldQuantity(new BigDecimal("100.50"));
+        v.setCurrentGoldPrice(new BigDecimal("6000.75"));
+        v.setCreatedAt(LocalDateTime.now());
 
         vendorsRepo.save(v);
 

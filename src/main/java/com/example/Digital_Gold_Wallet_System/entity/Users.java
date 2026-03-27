@@ -5,10 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Entity
@@ -28,6 +25,7 @@ public class Users {
     private String name;
 
     @Column(precision = 18, scale = 2)
+    @NotNull
     @PositiveOrZero(message = "Balance should be greater than or equal to 0")
     private BigDecimal balance;
     @Column(columnDefinition = "DATETIME", name="createdAt")

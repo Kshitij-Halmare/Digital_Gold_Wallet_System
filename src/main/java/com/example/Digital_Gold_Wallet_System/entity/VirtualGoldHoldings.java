@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 @Entity
@@ -13,8 +15,11 @@ public class VirtualGoldHoldings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer holdingId;
 
+    @NotNull
+    @PositiveOrZero
     @Column(precision = 18, scale = 2)
     private BigDecimal quantity;
+
     @Column(columnDefinition = "DATETIME",name = "createdAt")
     private LocalDateTime createdAt;
 
