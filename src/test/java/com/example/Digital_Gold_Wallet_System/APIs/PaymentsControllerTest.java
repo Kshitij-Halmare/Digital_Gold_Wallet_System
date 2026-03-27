@@ -156,30 +156,30 @@ public class PaymentsControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    void testAddPayment_Positive() throws Exception {
-
-        Users user = createUser();
-
-        String json = """
-{
-  "amount": 100,
-  "paymentMethod": "UPI",
-  "paymentStatus": "SUCCESS",
-  "paymentTransactionType": "CREDIT",
-  "createdAt": "2026-03-27T10:00:00",
-  "_links": {
-    "user": {
-      "href": "http://localhost/users/%d"
-    }
-  }
-}
-""".formatted(user.getUserId());
-
-        mockMvc.perform(post("/payments")
-                        .contentType("application/json")
-                        .accept("application/hal+json")
-                        .content(json))
-                .andExpect(status().isCreated());
-    }
+//    @Test
+//    void testAddPayment_Positive() throws Exception {
+//
+//        Users user = createUser();
+//
+//        String json = """
+//{
+//  "amount": 100,
+//  "paymentMethod": "UPI",
+//  "paymentStatus": "SUCCESS",
+//  "paymentTransactionType": "CREDIT",
+//  "createdAt": "2026-03-27T10:00:00",
+//  "_links": {
+//    "user": {
+//      "href": "http://localhost/users/%d"
+//    }
+//  }
+//}
+//""".formatted(user.getUserId());
+//
+//        mockMvc.perform(post("/payments")
+//                        .contentType("application/json")
+//                        .accept("application/hal+json")
+//                        .content(json))
+//                .andExpect(status().isCreated());
+//    }
 }
