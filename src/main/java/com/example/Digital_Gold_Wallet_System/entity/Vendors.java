@@ -1,6 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -9,13 +10,17 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "vendors")   // ✅ FIXED
 public class Vendors {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "vendor_id")   // ✅ good practice
     private Integer vendorId;
 
+    @NotBlank
     private String vendorName;
+
     private String description;
     private String contactPersonName;
     private String contactEmail;
