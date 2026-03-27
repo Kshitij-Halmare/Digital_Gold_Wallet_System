@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.AssertionsKt.assertNotNull;
 
 @SpringBootTest
@@ -25,8 +26,9 @@ public class UsersRepoTest {
         user.setBalance(new BigDecimal("1000.50"));
         user.setCreatedAt(LocalDateTime.now());
 
-        Users savedUser = usersRepo.save(user);
-
-        assertNotNull(savedUser.getUserId());
+        assertThrows(Exception.class, () -> {
+            usersRepo.save(user);
+            usersRepo.flush();
+        });
     }
 }

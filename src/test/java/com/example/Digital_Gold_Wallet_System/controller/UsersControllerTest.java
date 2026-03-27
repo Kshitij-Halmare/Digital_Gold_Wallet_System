@@ -30,7 +30,6 @@ class UsersControllerTest {
         Users user = new Users();
         user.setName("TestUser");
         user.setEmail("test@gmail.com");
-        user.setBalance(BigDecimal.valueOf(1000));
         return usersRepository.save(user);
     }
 
@@ -42,6 +41,17 @@ class UsersControllerTest {
 
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Test Get All Users When DB Is Empty")
+    void testGetAllUsersEmpty() throws Exception {
+
+        usersRepository.deleteAll();
+
+        mockMvc.perform(get("/users"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._embedded.userses").isEmpty());
     }
 
     @Test
@@ -60,6 +70,72 @@ class UsersControllerTest {
                         .contentType("application/json")
                         .content(userJson))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("Test Create User With Duplicate Email ID")
+    void testCreateUserDuplicateEmail() throws Exception {
+
+        createTestUser();
+
+        String duplicateUserJson = """
+    {
+        "name": "AnotherUser",
+        "email": "test@gmail.com",
+        "balance": 3000
+    }
+    """;
+
+        mockMvc.perform(post("/users")
+                        .contentType("application/json")
+                        .content(duplicateUserJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Test Find By Email")
+    void testFindUserByEmail() throws Exception {
+
+        mockMvc.perform(get("/users/search/findByEmailContainingIgnoreCase")
+                        .param("email",createTestUser().getEmail()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Test By Non-Existing Email")
+    void testFindUserByEmailNotFound() throws Exception {
+
+        mockMvc.perform(get("/users/search/findByEmailContainingIgnoreCase")
+                        .param("email", "nonexisting@gmail.com"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._embedded.userses").isEmpty());
+    }
+
+    @Test
+    @DisplayName("Test By Non-Existing Name")
+    void testFindUserByNameNotFound() throws Exception {
+
+        mockMvc.perform(get("/users/search/findByNameContainingIgnoreCase")
+                        .param("name", "UnknownUser"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._embedded.userses").isEmpty());
+    }
+
+    @Test
+    @DisplayName("Test Find By Name")
+    void testFindUserByName() throws Exception {
+
+        mockMvc.perform(get("/users/search/findByNameContainingIgnoreCase")
+                        .param("name",createTestUser().getName()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Test User NOT Found")
+    void testUserNotFound() throws Exception {
+
+        mockMvc.perform(get("/users/9999"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -93,6 +169,24 @@ class UsersControllerTest {
     }
 
     @Test
+    @DisplayName("Test Update User When UserID Doesn't Exist")
+    void testUpdateUserInvalidId() throws Exception {
+
+        String updatedJson = """
+    {
+        "name": "UpdatedUser",
+        "email": "updated@gmail.com",
+        "balance": 2000
+    }
+    """;
+
+        mockMvc.perform(put("/users/9999")
+                        .contentType("application/json")
+                        .content(updatedJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @DisplayName("Test Delete User")
     void testDeleteUser() throws Exception {
 
@@ -100,6 +194,14 @@ class UsersControllerTest {
 
         mockMvc.perform(delete("/users/" + savedUser.getUserId()))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Test Delete User When UserID Doesn't Exist")
+    void testDeleteUserInvalidId() throws Exception {
+
+        mockMvc.perform(delete("/users/9999"))
+                .andExpect(status().isBadRequest());
     }
 
 }

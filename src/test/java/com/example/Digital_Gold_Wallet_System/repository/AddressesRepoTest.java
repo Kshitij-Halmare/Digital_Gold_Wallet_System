@@ -23,9 +23,11 @@ public class AddressesRepoTest {
     void testSaveValidAddress() {
 
         Addresses address = new Addresses();
+        address.setStreet("Main Road");
         address.setCity("Nagpur");
         address.setState("Maharashtra");
         address.setCountry("India");
+        address.setPostalCode("440001");
 
         Addresses savedAddress = addressRepository.save(address);
 
@@ -35,13 +37,32 @@ public class AddressesRepoTest {
     }
 
     @Test
+    @DisplayName("Save Address with null city")
+    void testSaveAddressWithNullCity() {
+
+        Addresses address = new Addresses();
+        address.setStreet("Main Road");
+        address.setCity(null);
+        address.setState("Maharashtra");
+        address.setCountry("India");
+        address.setPostalCode("440001");
+
+        assertThrows(Exception.class, () -> {
+            addressRepository.save(address);
+            addressRepository.flush();
+        });
+    }
+
+    @Test
     @DisplayName("Find address by ID")
     void testFindAddressById() {
 
         Addresses address = new Addresses();
-        address.setCity("Mumbai");
+        address.setStreet("Main Road");
+        address.setCity("Nagpur");
         address.setState("Maharashtra");
         address.setCountry("India");
+        address.setPostalCode("440001");
 
         Addresses savedAddress = addressRepository.save(address);
 
@@ -49,7 +70,17 @@ public class AddressesRepoTest {
                 addressRepository.findById(savedAddress.getAddressId());
 
         assertTrue(foundAddress.isPresent());
-        assertEquals("Mumbai", foundAddress.get().getCity());
+        assertEquals("Nagpur", foundAddress.get().getCity());
+    }
+
+    @Test
+    @DisplayName("Find Address by invalid ID")
+    void testFindAddressByInvalidId() {
+
+        Optional<Addresses> address =
+                addressRepository.findById(9999);
+
+        assertTrue(address.isEmpty());
     }
 
 }

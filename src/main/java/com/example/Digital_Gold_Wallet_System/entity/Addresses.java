@@ -1,6 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.apache.catalina.User;
 
@@ -14,13 +15,18 @@ public class Addresses {
     @Column(name = "addressId")
     private Integer addressId;
 
+    @NotBlank
     private String street;
+    @NotBlank
     private String city;
+    @NotBlank
     private String state;
 
     @Column(name = "postalCode")
+    @NotBlank
     private String postalCode;
 
+    @NotBlank
     private String country;
 
     @OneToMany(mappedBy = "address")
