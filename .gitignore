@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 pom.xml
 src/main/resources/application.properties
+.gitignore
 
 ### STS ###
 .apt_generated
@@ -33,3 +34,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/java/com/example/Digital_Gold_Wallet_System/frontend/

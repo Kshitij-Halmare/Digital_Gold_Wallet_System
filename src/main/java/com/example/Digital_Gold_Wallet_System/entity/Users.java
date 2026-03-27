@@ -45,4 +45,12 @@ public class Users {
 
     @OneToMany(mappedBy = "user")
     private List<Payments> payments;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        if (balance == null) {
+            balance = BigDecimal.ZERO;
+        }
+    }
 }
