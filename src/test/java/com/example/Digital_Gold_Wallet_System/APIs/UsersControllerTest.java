@@ -10,6 +10,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -146,16 +149,15 @@ class UsersControllerTest {
     }
 
     @Test
-    @DisplayName("Test Update User")
+    @DisplayName("Test Update User name & Email")
     void testUpdateUser() throws Exception {
 
         Users savedUser = createTestUser();
 
         String updatedJson = """
         {
-            "userName": "UpdatedUser",
-            "userEmail": "updated@gmail.com",
-            "userBalance": 2000
+            "name": "UpdatedUser",
+            "email": "updated@gmail.com"
         }
         """;
 
@@ -163,7 +165,38 @@ class UsersControllerTest {
                         .contentType("application/json")
                         .content(updatedJson))
                 .andExpect(status().isNoContent());
+
+        Users updatedUser = usersRepository.findById(savedUser.getUserId()).get();
+
+        assertEquals("UpdatedUser", updatedUser.getName());
+        assertEquals("updated@gmail.com", updatedUser.getEmail());
     }
+
+//    @Test
+//    @DisplayName("Test Deposit Money")
+//    void testDepositMoney() throws Exception {
+//
+//        Users savedUser = createTestUser();
+//
+//        BigDecimal oldBalance = savedUser.getBalance();
+//        BigDecimal depositAmount = new BigDecimal("10000");
+//
+//
+//        String updatedJson = """
+//        {
+//            "balance": 10000
+//        }
+//        """;
+//
+//        mockMvc.perform(put("/users/" + savedUser.getUserId())
+//                        .contentType("application/json")
+//                        .content(updatedJson))
+//                .andExpect(status().isNoContent());
+//
+//        Users updatedUser = usersRepository.findById(savedUser.getUserId()).get();
+//
+//        assertEquals(oldBalance.add(depositAmount), updatedUser.getBalance());
+//    }
 
     @Test
     @DisplayName("Test Update User When UserID Doesn't Exist")
