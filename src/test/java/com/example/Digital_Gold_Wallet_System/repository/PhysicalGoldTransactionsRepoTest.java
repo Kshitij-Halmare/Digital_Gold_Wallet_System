@@ -1,6 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
 import com.example.Digital_Gold_Wallet_System.entity.PhysicalGoldTransactions;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
-
+@Transactional
 public class PhysicalGoldTransactionsRepoTest {
 
 
