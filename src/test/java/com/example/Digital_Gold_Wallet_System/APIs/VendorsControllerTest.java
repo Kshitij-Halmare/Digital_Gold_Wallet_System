@@ -1,4 +1,4 @@
-package com.example.Digital_Gold_Wallet_System.controller;
+package com.example.Digital_Gold_Wallet_System.APIs;
 
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;

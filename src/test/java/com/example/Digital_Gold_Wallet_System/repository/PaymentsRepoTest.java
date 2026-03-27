@@ -41,6 +41,41 @@ public class PaymentsRepoTest {
         assertNotNull(savedPayment.getPaymentId());
         assertEquals(new BigDecimal("5000.00"), savedPayment.getAmount());
     }
+
+    @Test
+    @DisplayName("Save Payment with negative amount")
+    void testSavePaymentInvalidData() {
+
+        Payments payment = new Payments();
+        payment.setAmount(new BigDecimal(-89));
+        payment.setPaymentMethod(PaymentMethod.CREDIT_CARD);
+        payment.setPaymentTransactionType(PaymentTransactionType.CREDITED);
+        payment.setPaymentStatus(PaymentStatus.SUCCESS);
+        payment.setCreatedAt(LocalDateTime.now());
+
+        assertThrows(Exception.class, () -> {
+            paymentsRepository.save(payment);
+            paymentsRepository.flush();
+        });
+    }
+
+    @Test
+    @DisplayName("Save Payment with null amount")
+    void testSavePaymentNullData() {
+
+        Payments payment = new Payments();
+        payment.setAmount(null);
+        payment.setPaymentMethod(PaymentMethod.CREDIT_CARD);
+        payment.setPaymentTransactionType(PaymentTransactionType.CREDITED);
+        payment.setPaymentStatus(PaymentStatus.SUCCESS);
+        payment.setCreatedAt(LocalDateTime.now());
+
+        assertThrows(Exception.class, () -> {
+            paymentsRepository.save(payment);
+            paymentsRepository.flush();
+        });
+    }
+
     @Test
     @DisplayName("Test Find by ID")
     void testFindByIdPayment() {
@@ -56,6 +91,16 @@ public class PaymentsRepoTest {
 
         Optional<Payments> foundPayment = paymentsRepository.findById(savedPayment.getPaymentId());
         assertTrue(foundPayment.isPresent());
+    }
+
+    @Test
+    @DisplayName("Find Payment by invalid ID")
+    void testFindPaymentByInvalidId() {
+
+        Optional<Payments> payment =
+                paymentsRepository.findById(9999);
+
+        assertTrue(payment.isEmpty());
     }
 
 }

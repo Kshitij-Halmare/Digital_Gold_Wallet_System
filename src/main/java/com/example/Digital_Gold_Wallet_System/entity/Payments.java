@@ -4,6 +4,8 @@ import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentMethod;
 import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentStatus;
 import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentTransactionType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -16,17 +18,24 @@ public class Payments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "paymentId")
     private Integer paymentId;
+
+    @NotNull
+    @PositiveOrZero
     @Column(name = "amount", precision = 18, scale = 2, nullable = false)
     private BigDecimal amount;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "paymentMethod")
     private PaymentMethod paymentMethod;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "transactionType")
     private PaymentTransactionType paymentTransactionType;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "paymentStatus")
     private PaymentStatus paymentStatus;
+
     @Column(name = "createdAt", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 

@@ -1,4 +1,4 @@
-package com.example.Digital_Gold_Wallet_System.controller;
+package com.example.Digital_Gold_Wallet_System.APIs;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
