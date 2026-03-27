@@ -76,4 +76,35 @@ public class VirtualGoldHoldingsControllerTest{
         mockMvc.perform(get("/virtual_gold_holdings/search/findByQuantity").param("quantity","-10")).andExpect(status().isOk()).andExpect(jsonPath("$._embedded.holdings").isEmpty());
     }
 
+    @Test
+    void testGetByUser_Positive() throws Exception{
+        mockMvc.perform(get("/virtual_gold_holdings/search/findByUser_UserId").param("userId","1"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$._embedded.holdings").exists());
+    }
+
+    @Test
+    void testGetByUser_Empty() throws Exception{
+        mockMvc.perform(get("/virtual_gold_holdings/search/findByUser_UserId").param("userId","999"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$._embedded.holdings").isEmpty());
+    }
+
+    @Test
+    void testGetById_Positive() throws Exception{
+        VirtualGoldHoldings h = new VirtualGoldHoldings();
+        h.setQuantity(BigDecimal.valueOf(5));
+        h.setCreatedAt(LocalDateTime.now());
+        h = repository.save(h);
+
+        mockMvc.perform(get("/virtual_gold_holdings/" + h.getHoldingId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.quantity").value(5));
+    }
+
+    @Test
+    void testGetById_NotFound() throws Exception{
+
+        mockMvc.perform(get("/virtual_gold_holdings/999"))
+                .andExpect(status().isBadRequest());
+    }
+
 }
