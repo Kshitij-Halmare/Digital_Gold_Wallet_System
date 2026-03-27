@@ -14,6 +14,6 @@ public interface VirtualGoldHoldingsRepo extends JpaRepository<VirtualGoldHoldin
 
     List<VirtualGoldHoldings> findByBranch_BranchId(Integer branchId);
     List<VirtualGoldHoldings> findByQuantity(Integer quantity);
-
-
+    List<VirtualGoldHoldings> findByUser_UserId(Integer userId);
+    List<VirtualGoldHoldings> findByUser_UserIdAndBranch_BranchId(Integer userId, Integer branchId);
 }
