@@ -3,6 +3,7 @@ package com.example.Digital_Gold_Wallet_System.repository;
 import com.example.Digital_Gold_Wallet_System.entity.TransactionHistory;
 import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentTransactionType;
 import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionStatus;
+import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionType;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ public class TransactionHistoryRepoTest {
 
     private TransactionHistory createTransaction() {
         TransactionHistory tx = new TransactionHistory();
-        tx.setTransactionType(PaymentTransactionType.CREDITED);
+        tx.setTransactionType(TransactionType.BUY);
         tx.setTransactionStatus(TransactionStatus.SUCCESS);
         tx.setQuantity(new BigDecimal("10.50"));
         tx.setAmount(new BigDecimal("55000.75"));
@@ -43,7 +44,7 @@ public class TransactionHistoryRepoTest {
         TransactionHistory saved = repository.save(tx);
 
         assertNotNull(saved.getTransactionId());
-        assertEquals(PaymentTransactionType.CREDITED, saved.getTransactionType());
+        assertEquals(TransactionType.BUY, saved.getTransactionType());
     }
 
     @Test
