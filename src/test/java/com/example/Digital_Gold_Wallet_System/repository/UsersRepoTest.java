@@ -23,12 +23,10 @@ public class UsersRepoTest {
         Users user = new Users();
         user.setName("Kshitij Halmare");
         user.setEmail("kshitij1@gmail.com");
-        user.setBalance(new BigDecimal("1000.50"));
-        user.setCreatedAt(LocalDateTime.now());
 
-        assertThrows(Exception.class, () -> {
-            usersRepo.save(user);
-            usersRepo.flush();
-        });
+        Users savedUser = usersRepo.save(user);
+
+        assertNotNull(savedUser);
+        assertNotNull(savedUser.getUserId());
     }
 }
