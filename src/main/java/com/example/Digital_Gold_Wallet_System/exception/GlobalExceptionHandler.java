@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
     //Handles all remaining unexpected exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGenericException(Exception ex){
-        return new ResponseEntity<>("An unexpected error occurred: "+ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("An unexpected error occurred: "+ex.getMessage(),HttpStatus.BAD_REQUEST);
     }
 
 }
