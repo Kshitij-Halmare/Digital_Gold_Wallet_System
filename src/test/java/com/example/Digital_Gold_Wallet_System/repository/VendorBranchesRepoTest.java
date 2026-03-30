@@ -1,5 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
+import com.example.Digital_Gold_Wallet_System.Projection.AddressProjection;
+import com.example.Digital_Gold_Wallet_System.Projection.VendorBranchProjection;
 import com.example.Digital_Gold_Wallet_System.entity.Addresses;
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
 import jakarta.transaction.Transactional;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,6 +23,10 @@ class VendorBranchesRepoTest {
     @Autowired
     private VendorBranchesRepo repo;
 
+
+    @Autowired
+    private AddressesRepo addressesRepo; // needed to save addresses if separate
+
     private VendorBranches createBranch(String street, String city, String state, String country, String postal, BigDecimal qty) {
 
         Addresses address = new Addresses();
@@ -29,12 +36,17 @@ class VendorBranchesRepoTest {
         address.setPostalCode(postal);
         address.setStreet(street);
 
+        addressesRepo.save(address); // save address first if needed
+
         VendorBranches branch = new VendorBranches();
         branch.setQuantity(qty);
         branch.setAddress(address);
+        branch.setCreatedAt(LocalDateTime.now());
 
         return repo.save(branch);
     }
+
+
 
     @Test
     void testFindAll() {
@@ -145,4 +157,37 @@ class VendorBranchesRepoTest {
         assertTrue(result.get(0).getQuantity()
                 .compareTo(result.get(1).getQuantity()) >= 0);
     }
+//    @Test
+//    void testVendorBranchProjection() {
+//        // Arrange: create sample branches
+//        createBranch("101 Avenue", "Pune", "MH", "India", "411001", BigDecimal.valueOf(20));
+//        createBranch("171 Bravo", "Mumbai", "MH", "India", "400001", BigDecimal.valueOf(30));
+//
+//        // Act: fetch using projection
+//        List<VendorBranchProjection> projections = repo.findAllBy();
+//
+//        // Assert
+//        assertFalse(projections.isEmpty());
+//        for (VendorBranchProjection proj : projections) {
+//            assertNotNull(proj.getBranchId());
+//            assertNotNull(proj.getQuantity());
+//            assertNotNull(proj.getCreatedAt());
+//
+//            AddressProjection addr = proj.getAddress();
+//            assertNotNull(addr);
+//            assertNotNull(addr.getStreet());
+//            assertNotNull(addr.getCity());
+//            assertNotNull(addr.getState());
+//            assertNotNull(addr.getPostalCode());
+//            assertNotNull(addr.getCountry());
+//
+//            // Optional: print to console
+//            System.out.println("Branch ID: " + proj.getBranchId());
+//            System.out.println("Quantity: " + proj.getQuantity());
+//            System.out.println("Address: " + addr.getStreet() + ", " + addr.getCity() +
+//                    ", " + addr.getState() + ", " + addr.getPostalCode() +
+//                    ", " + addr.getCountry());
+//            System.out.println("-----------");
+//        }
+//    }
 }
