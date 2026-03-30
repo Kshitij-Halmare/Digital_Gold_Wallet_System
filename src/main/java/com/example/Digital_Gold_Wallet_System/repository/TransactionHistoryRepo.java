@@ -7,18 +7,15 @@ import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
-@RepositoryRestResource(
-        path = "transactions",
-        excerptProjection = TransactionHistoryProjection.class
-)
+@RepositoryRestResource(path = "transaction",
+        excerptProjection = TransactionHistoryProjection.class)
+@CrossOrigin(origins = "*")
 public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory, Integer> {
-    List<TransactionHistoryProjection> findByBranch_BranchId(Integer branchId);
-
     List<TransactionHistory> findByBranchBranchId(Integer branchId);
 
     // Used by TC-22,23
