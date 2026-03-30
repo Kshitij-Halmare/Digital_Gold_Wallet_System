@@ -1,233 +1,253 @@
-// ── API BASE URL ──
+// ── API BASE URL — change if your Spring Boot runs on different port ──
 const API_BASE = 'http://localhost:8080';
 
 // ── HELPERS ──
 function formatDate(dt) {
   if (!dt) return '—';
   const d = new Date(dt);
-  return d.toLocaleDateString('en-IN', {
-    day: '2-digit', month: 'short', year: 'numeric'
-  });
+  return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
 function formatQty(q) {
   if (q == null) return '0.00';
-  return parseFloat(q).toLocaleString('en-IN', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
+  return parseFloat(q).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 function padId(id) {
   return String(id).padStart(3, '0');
 }
 
-function extractIdFromUrl(url) {
+function extractId(url) {
   if (!url) return '—';
-  const parts = url.split('/');
-  return parts[parts.length - 1];
+  return url.split('/').filter(Boolean).pop();
 }
 
-// remove `{?projection}`
-function cleanUrl(url) {
-  return url ? url.replace(/\{.*\}/, '') : null;
-}
-
-// ── FETCH ALL BRANCHES ──
-async function fetchBranches() {
-  const res = await fetch(`${API_BASE}/branches?size=100&sort=branchId,asc`);
-  if (!res.ok) throw new Error(`Failed to fetch branches: ${res.status}`);
-
+// ────────────────────────────────────────────────
+// STRATEGY 1: Try projection (fastest — 1 request)
+// Requires this interface in your Spring Boot project:
+//
+// @Projection(name = "vendorBranchView", types = VendorBranches.class)
+// public interface VendorBranchView {
+//     Integer getBranchId();
+//     BigDecimal getQuantity();
+//     LocalDateTime getCreatedAt();
+//     Vendors getVendors();
+//     Addresses getAddress();
+// }
+// ────────────────────────────────────────────────
+async function fetchWithProjection() {
+  const res = await fetch(
+    `${API_BASE}/vendorBranches?projection=vendorBranchView&size=100&sort=branchId,asc`
+  );
+  if (!res.ok) throw new Error(`projection failed: ${res.status}`);
   const data = await res.json();
+  const raw = data._embedded?.vendorBranches || [];
 
-  // IMPORTANT: your backend uses this key
-  return data._embedded?.branches || [];
+  return raw.map(b => {
+    const branchId = b.branchId ?? extractId(b._links?.self?.href);
+    const v = b.vendors   || {};
+    const a = b.address   || {};
+    return {
+      branchId,
+      quantity:   b.quantity,
+      createdAt:  b.createdAt,
+      vendorName: v.vendorName ?? '—',
+      city:       a.city       ?? '—',
+      state:      a.state      ?? '—',
+      country:    a.country    ?? '—',
+      street:     a.street     ?? '—',
+      postalCode: a.postalCode ?? '—',
+    };
+  });
 }
 
-// ── FETCH RELATED DATA ──
-async function fetchRelated(branch) {
-  const links = branch._links;
+// ────────────────────────────────────────────────
+// STRATEGY 2: Fetch branches, then vendor+address
+// per branch using _links (works without projection)
+// ────────────────────────────────────────────────
+async function fetchWithLinks() {
+  const res = await fetch(`${API_BASE}/vendorBranches?size=100&sort=branchId,asc`);
+  if (!res.ok) throw new Error(`branches fetch failed: ${res.status}`);
+  const data = await res.json();
+  const branches = data._embedded?.vendorBranches || [];
 
-  // --- Vendor ---
-  let vendor = { vendorName: '—' };
+  if (!branches.length) return [];
 
+  const rows = await Promise.all(branches.map(async b => {
+    const branchId = extractId(b._links?.self?.href);
+
+    let vendorName = '—', city = '—', state = '—',
+        country = '—', street = '—', postalCode = '—';
+
+    // fetch vendor
+    try {
+      const vUrl = b._links?.vendors?.href;
+      if (vUrl) {
+        const vRes = await fetch(vUrl);
+        if (vRes.ok) {
+          const v = await vRes.json();
+          vendorName = v.vendorName ?? '—';
+        }
+      }
+    } catch (_) {}
+
+    // fetch address
+    try {
+      const aUrl = b._links?.address?.href;
+      if (aUrl) {
+        const aRes = await fetch(aUrl);
+        if (aRes.ok) {
+          const a = await aRes.json();
+          city       = a.city       ?? '—';
+          state      = a.state      ?? '—';
+          country    = a.country    ?? '—';
+          street     = a.street     ?? '—';
+          postalCode = a.postalCode ?? '—';
+        }
+      }
+    } catch (_) {}
+
+    return {
+      branchId,
+      quantity:   b.quantity,
+      createdAt:  b.createdAt,
+      vendorName, city, state, country, street, postalCode
+    };
+  }));
+
+  return rows;
+}
+
+// ── MAIN FETCH — tries projection first, falls back to links ──
+async function loadData() {
   try {
-    const res = await fetch(cleanUrl(links.vendors.href));
-
-    if (res.ok) {
-      const v = await res.json();
-
-      vendor = {
-        vendorName: v.vendorName || '—'
-      };
-    }
-
+    const rows = await fetchWithProjection();
+    if (rows.length) return rows;
   } catch (_) {}
 
-  // --- Address (already in projection) ---
-  const address = branch.address || {
-    street: '—',
-    city: '—',
-    state: '—',
-    postalCode: '—',
-    country: '—'
-  };
-
-  // --- Counts ---
-  const txCount     = await fetchCount(cleanUrl(links.transactions?.href));
-  const holdCount   = await fetchCount(cleanUrl(links.holdings?.href));
-  const physTxCount = await fetchCount(cleanUrl(links.physicalTransactions?.href));
-
-  return { vendor, address, txCount, holdCount, physTxCount };
+  // fallback
+  return await fetchWithLinks();
 }
 
-// ── FETCH COUNT ──
-async function fetchCount(url) {
-  if (!url) return 0;
+// ── CACHED ROWS ──
+let allRows = [];
 
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return 0;
+// ── POPULATE FILTER DROPDOWNS ──
+function populateFilters() {
+  const unique = key => [...new Set(allRows.map(r => r[key]).filter(v => v && v !== '—'))].sort();
+  fillSelect('cityFilter',    unique('city'));
+  fillSelect('stateFilter',   unique('state'));
+  fillSelect('countryFilter', unique('country'));
+}
 
-    const data = await res.json();
-    const embedded = data._embedded;
+function fillSelect(id, values) {
+  const sel = document.getElementById(id);
+  while (sel.options.length > 1) sel.remove(1);
+  values.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    opt.textContent = v;
+    sel.appendChild(opt);
+  });
+}
 
-    if (!embedded) return 0;
+// ── UPDATE SUMMARY ──
+function updateSummary(filtered) {
+  const vendorName = allRows[0]?.vendorName ?? '—';
+  const totalQty   = filtered.reduce((s, r) => s + parseFloat(r.quantity || 0), 0);
 
-    const key = Object.keys(embedded)[0];
-    return embedded[key]?.length ?? 0;
+  document.getElementById('summaryVendorName').textContent  = vendorName;
+  document.getElementById('summaryBranchCount').textContent = filtered.length;
+  document.getElementById('summaryTotalQty').textContent    = formatQty(totalQty) + ' g';
+  document.getElementById('pageSubtitle').textContent       = `Manage locations for ${vendorName}`;
+}
 
-  } catch (_) {
-    return 0;
+// ── RENDER TABLE ──
+function renderTable(rows) {
+  const tbody = document.getElementById('branchTableBody');
+  document.getElementById('countBadge').textContent =
+    `${rows.length} branch${rows.length !== 1 ? 'es' : ''}`;
+
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="7" class="table-empty">No branches match the selected filters.</td></tr>`;
+    return;
   }
+
+  tbody.innerHTML = rows.map((r, i) => `
+    <tr style="animation-delay:${i * 0.03}s">
+      <td class="td-id"      data-label="Branch ID">#${padId(r.branchId)}</td>
+      <td class="td-city"    data-label="City">${r.city}</td>
+      <td class="td-state"   data-label="State">${r.state}</td>
+      <td                    data-label="Country">${r.country}</td>
+      <td class="td-address" data-label="Address" title="${r.street}, ${r.city} — ${r.postalCode}">
+        ${r.street}, ${r.city} — ${r.postalCode}
+      </td>
+      <td class="td-qty"     data-label="Gold Qty">${formatQty(r.quantity)}</td>
+      <td class="td-date"    data-label="Created At">${formatDate(r.createdAt)}</td>
+    </tr>
+  `).join('');
 }
 
-// ── BUILD CARD ──
-function buildCard(item, index) {
-  const { branch, vendor, address, txCount, holdCount, physTxCount } = item;
-  const branchId = extractIdFromUrl(branch._links?.self?.href);
+// ── APPLY FILTERS ──
+function applyFilters() {
+  const city    = document.getElementById('cityFilter').value;
+  const state   = document.getElementById('stateFilter').value;
+  const country = document.getElementById('countryFilter').value;
 
-  return `
-    <div class="branch-card" style="animation-delay:${index * 0.07}s">
-      <div class="branch-card-bar"></div>
+  const filtered = allRows.filter(r =>
+    (!city    || r.city    === city)    &&
+    (!state   || r.state   === state)   &&
+    (!country || r.country === country)
+  );
 
-      <div class="branch-card-head">
-        <div class="branch-vendor">
-          <span>${vendor.vendorName}</span>
-          Branch #${branchId}
-        </div>
-        <div class="branch-head-right">
-          <span class="branch-id-badge">ID · ${padId(branchId)}</span>
-          <div class="qty-chip">
-            <span class="qty-value">${formatQty(branch.quantity)}</span>
-            <span class="qty-label">grams (gold)</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="branch-card-body">
-        <div class="info-block">
-          <div class="info-label">City</div>
-          <div class="info-value highlight">${address.city}</div>
-        </div>
-        <div class="info-block">
-          <div class="info-label">State</div>
-          <div class="info-value highlight">${address.state}</div>
-        </div>
-        <div class="info-block">
-          <div class="info-label">Postal Code</div>
-          <div class="info-value">${address.postalCode}</div>
-        </div>
-        <div class="info-block">
-          <div class="info-label">Country</div>
-          <div class="info-value">${address.country}</div>
-        </div>
-        <div class="info-block full">
-          <div class="info-label">Street Address</div>
-          <div class="info-value">${address.street}</div>
-        </div>
-        <div class="info-block">
-          <div class="info-label">Created At</div>
-          <div class="info-value">${formatDate(branch.createdAt)}</div>
-        </div>
-
-        <!-- ✅ FIXED: vendor name instead of vendorId -->
-        <div class="info-block">
-          <div class="info-label">Vendor</div>
-          <div class="info-value">${vendor.vendorName}</div>
-        </div>
-      </div>
-
-      <div class="branch-card-stats">
-        <div class="stat-item">
-          <span class="stat-num">${txCount}</span>
-          <span class="stat-lbl">Transactions</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-num">${holdCount}</span>
-          <span class="stat-lbl">Holdings</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-num">${physTxCount}</span>
-          <span class="stat-lbl">Physical Txns</span>
-        </div>
-      </div>
-    </div>
-  `;
+  renderTable(filtered);
+  updateSummary(filtered);
 }
 
-// ── CACHE ──
-let allBranchData = [];
-
-// ── RENDER ──
-function renderBranches() {
-  const grid = document.getElementById('branchGrid');
-  const badge = document.getElementById('countBadge');
-
-  badge.textContent = `${allBranchData.length} branches`;
-
-  grid.innerHTML = allBranchData.map((item, i) => buildCard(item, i)).join('');
+// ── RESET FILTERS ──
+function resetFilters() {
+  ['cityFilter', 'stateFilter', 'countryFilter'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  applyFilters();
 }
 
-// ── LOADING ──
+// ── LOADING / ERROR STATES ──
 function showLoading() {
-  document.getElementById('branchGrid').innerHTML = `
-    <div class="loading-state">
-      <span>Loading branches…</span>
-    </div>`;
+  document.getElementById('branchTableBody').innerHTML = `
+    <tr>
+      <td colspan="7" class="table-loading">
+        <div class="loader"></div>Loading branches from database…
+      </td>
+    </tr>`;
 }
 
-// ── ERROR ──
 function showError(msg) {
-  document.getElementById('branchGrid').innerHTML = `
-    <div class="empty-state"><span>⚠</span>${msg}</div>`;
+  document.getElementById('branchTableBody').innerHTML = `
+    <tr><td colspan="7" class="table-empty">⚠ ${msg}</td></tr>`;
+  ['summaryVendorName','summaryBranchCount','summaryTotalQty'].forEach(id => {
+    document.getElementById(id).textContent = '—';
+  });
+  document.getElementById('countBadge').textContent = '0 branches';
 }
 
 // ── INIT ──
-document.addEventListener('DOMContentLoaded', async function () {
-  console.log("UPDATED JS LOADED ✅"); // debug
-
+document.addEventListener('DOMContentLoaded', async () => {
   showLoading();
-
   try {
-    const branches = await fetchBranches();
+    const rows = await loadData();
 
-    if (branches.length === 0) {
-      showError('No branches found in the database.');
+    if (!rows.length) {
+      showError('No branches found in database. Make sure MySQL has data and Spring Boot is running.');
       return;
     }
 
-    const relatedList = await Promise.all(branches.map(b => fetchRelated(b)));
-
-    allBranchData = branches.map((branch, i) => ({
-      branch,
-      ...relatedList[i]
-    }));
-
-    renderBranches();
+    allRows = rows;
+    populateFilters();
+    applyFilters();
 
   } catch (err) {
-    console.error(err);
-    showError('Server error. Check backend.');
+    console.error('Failed to load branches:', err);
+    showError('Cannot connect to server on port 8080. Start your Spring Boot application first.');
   }
 });

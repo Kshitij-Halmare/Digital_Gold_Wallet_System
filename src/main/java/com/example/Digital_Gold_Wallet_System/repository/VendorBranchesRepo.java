@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RepositoryRestResource(
-        path = "branches",
-        collectionResourceRel = "branches",
+        path = "vendorBranches",
+        collectionResourceRel = "vendorBranches",
         excerptProjection = VendorBranchProjection.class
 )public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
 
@@ -23,4 +23,10 @@ import java.util.List;
     List<VendorBranches> findByAddressCityAndAddressState(String city, String state);
     List<VendorBranches> findByVendorsVendorId(Integer vendorId);
     List<VendorBranches> findByVendorsVendorIdAndAddressCity(Integer vendorId, String city);
+
+    List<VendorBranches> findByAddressCityContainingIgnoreCase(String pun);
+
+    List<VendorBranches> findByAddressCityOrderByQuantityAsc(String pune);
+
+    List<VendorBranches> findByAddressCityOrderByQuantityDesc(String pune);
 }
