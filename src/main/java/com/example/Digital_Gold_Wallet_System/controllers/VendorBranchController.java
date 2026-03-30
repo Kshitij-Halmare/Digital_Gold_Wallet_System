@@ -1,4 +1,4 @@
-package com.example.Digital_Gold_Wallet_System.Controllers;
+package com.example.Digital_Gold_Wallet_System.controllers;
 
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
 import com.example.Digital_Gold_Wallet_System.service.VendorBranchService;
