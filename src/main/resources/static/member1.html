@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Vendor Branches — Digital Gold Wallet System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/indexStyle.css"/>
+    <link rel="stylesheet" href="css/vendorBranchesAddressesStyle.css"/>
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+
+<div class="page-wrap">
+
+    <!-- BACK LINK -->
+    <a class="back-link" href="index.html">← Back to Home Page</a>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>Vendor <em>Branches</em></h1>
+        <p class="page-sub" id="pageSubtitle">Manage vendor branch locations</p>
+    </div>
+
+    <!-- SUMMARY CARD -->
+    <div class="summary-card">
+        <div class="summary-item">
+            <div class="summary-label">Vendor Name</div>
+            <div class="summary-value" id="summaryVendorName">—</div>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+            <div class="summary-label">Total Branches</div>
+            <div class="summary-value gold" id="summaryBranchCount">—</div>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+            <div class="summary-label">Total Gold Quantity</div>
+            <div class="summary-value gold" id="summaryTotalQty">— g</div>
+        </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filter-card">
+        <div class="filter-title">Filter Branches</div>
+        <div class="filter-row">
+            <div class="filter-group">
+                <label class="filter-label">City</label>
+                <select class="filter-select" id="cityFilter" onchange="applyFilters()">
+                    <option value="">All Cities</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">State</label>
+                <select class="filter-select" id="stateFilter" onchange="applyFilters()">
+                    <option value="">All States</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Country</label>
+                <select class="filter-select" id="countryFilter" onchange="applyFilters()">
+                    <option value="">All Countries</option>
+                </select>
+            </div>
+            <button class="reset-btn" onclick="resetFilters()">Reset</button>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-card">
+        <table class="branch-table">
+            <colgroup>
+                <col/><col/><col/><col/><col/><col/><col/>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>Branch ID</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Country</th>
+                <th>Address</th>
+                <th>Gold Qty (g)</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+            <tbody id="branchTableBody">
+            <tr>
+                <td colspan="7" class="table-loading">
+                    <div class="loader"></div>Loading branches…
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="table-footer">
+            <span class="count-badge" id="countBadge">— branches</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-dot"></div>
+        <div class="footer-text">Digital Gold Wallet System</div>
+        <div class="footer-dot"></div>
+    </div>
+</footer>
+
+<script src="js/vendorsBranchesAddresses.js"></script>
+
+</body>
+</html>
