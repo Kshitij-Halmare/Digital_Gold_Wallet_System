@@ -31,4 +31,5 @@ public class VirtualGoldHoldings {
     @JoinColumn(name = "branchId")
     private VendorBranches branch;
 
+    private boolean converted;
 }

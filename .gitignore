@@ -35,3 +35,9 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/java/com/example/Digital_Gold_Wallet_System/frontend/
+
+
+src/main/resources/static/
+src/main/resources/templates/
+src/main/java/com/example/Digital_Gold_Wallet_System/controller/
+src/main/java/com/example/Digital_Gold_Wallet_System/projections/

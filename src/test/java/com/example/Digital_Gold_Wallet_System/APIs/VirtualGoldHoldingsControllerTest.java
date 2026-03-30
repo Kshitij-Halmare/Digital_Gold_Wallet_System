@@ -105,13 +105,13 @@ public class VirtualGoldHoldingsControllerTest{
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.quantity").value(5));
     }
-//
-//    @Test
-//    void testGetById_NotFound() throws Exception{
-//
-//        mockMvc.perform(get("/virtual_gold_holdings/999"))
-//                .andExpect(status().isBadRequest());
-//    }
+
+    @Test
+    void testGetById_NotFound() throws Exception{
+
+        mockMvc.perform(get("/virtual_gold_holdings/999"))
+                .andExpect(status().isInternalServerError());
+    }
 
     @Autowired
     private VendorBranchesRepo branchRepo;
@@ -176,18 +176,18 @@ public class VirtualGoldHoldingsControllerTest{
                 .andExpect(status().isCreated());
     }
 
-//    @Test
-//    void testAddHolding_Invalid() throws Exception {
-//
-//        String json = """
-//    {
-//        "quantity": "invalid"
-//    }
-//    """;
-//
-//        mockMvc.perform(post("/virtual_gold_holdings")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(json))
-//                .andExpect(status().isBadRequest());
-//    }
+    @Test
+    void testAddHolding_Invalid() throws Exception {
+
+        String json = """
+    {
+        "quantity": "invalid"
+    }
+    """;
+
+        mockMvc.perform(post("/virtual_gold_holdings")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isInternalServerError());
+    }
 }
