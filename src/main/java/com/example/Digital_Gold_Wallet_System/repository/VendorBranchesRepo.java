@@ -3,11 +3,13 @@ package com.example.Digital_Gold_Wallet_System.repository;
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @RepositoryRestResource(path = "branches")
+@CrossOrigin(origins = "*")
 public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
 
     List<VendorBranches> findByAddressCity(String city);

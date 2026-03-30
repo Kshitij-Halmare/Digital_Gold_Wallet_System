@@ -5,11 +5,13 @@ import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionType;
 import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
+@CrossOrigin(origins = "*")
 public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory, Integer> {
     List<TransactionHistory> findByBranchBranchId(Integer branchId);
 
