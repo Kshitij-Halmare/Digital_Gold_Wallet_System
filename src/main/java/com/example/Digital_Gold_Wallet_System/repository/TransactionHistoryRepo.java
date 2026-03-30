@@ -1,5 +1,6 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
+import com.example.Digital_Gold_Wallet_System.Projection.TransactionHistoryProjection;
 import com.example.Digital_Gold_Wallet_System.entity.TransactionHistory;
 import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionType;
 import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionStatus;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@RepositoryRestResource(path = "transaction")
+@RepositoryRestResource(path = "transaction",
+        excerptProjection = TransactionHistoryProjection.class)
 @CrossOrigin(origins = "*")
 public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory, Integer> {
     List<TransactionHistory> findByBranchBranchId(Integer branchId);

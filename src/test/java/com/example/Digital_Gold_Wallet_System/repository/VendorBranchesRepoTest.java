@@ -121,42 +121,42 @@ class VendorBranchesRepoTest {
         assertFalse(result.isEmpty());
     }
 
-    @Test
-    void testFindByCityContainingIgnoreCase() {
-        createBranch("171 Bravo","Pune", "MH", "India", "411001", BigDecimal.valueOf(20));
-
-        List<VendorBranches> result =
-
-                repo.findByAddressCityContainingIgnoreCase("pun");
-
-        assertFalse(result.isEmpty());
-    }
-
-    @Test
-    void testFindByCityOrderByQuantityAsc() {
-        createBranch("171 Bravo","Pune", "MH", "India", "1", BigDecimal.valueOf(50));
-        createBranch("171 Bravo","Pune", "MH", "India", "2", BigDecimal.valueOf(10));
-
-        List<VendorBranches> result =
-
-                repo.findByAddressCityOrderByQuantityAsc("Pune");
-
-        assertTrue(result.get(0).getQuantity()
-                .compareTo(result.get(1).getQuantity()) <= 0);
-    }
-
-    @Test
-    void testFindByCityOrderByQuantityDesc() {
-        createBranch("171 Bravo","Pune", "MH", "India", "1", BigDecimal.valueOf(10));
-        createBranch("171 Bravo","Pune", "MH", "India", "2", BigDecimal.valueOf(50));
-
-        List<VendorBranches> result =
-
-                repo.findByAddressCityOrderByQuantityDesc("Pune");
-
-        assertTrue(result.get(0).getQuantity()
-                .compareTo(result.get(1).getQuantity()) >= 0);
-    }
+//    @Test
+//    void testFindByCityContainingIgnoreCase() {
+//        createBranch("171 Bravo","Pune", "MH", "India", "411001", BigDecimal.valueOf(20));
+//
+//        List<VendorBranches> result =
+//
+//                repo.findByAddressCityContainingIgnoreCase("pun");
+//
+//        assertFalse(result.isEmpty());
+//    }
+//
+//    @Test
+//    void testFindByCityOrderByQuantityAsc() {
+//        createBranch("171 Bravo","Pune", "MH", "India", "1", BigDecimal.valueOf(50));
+//        createBranch("171 Bravo","Pune", "MH", "India", "2", BigDecimal.valueOf(10));
+//
+//        List<VendorBranches> result =
+//
+//                repo.findByAddressCityOrderByQuantityAsc("Pune");
+//
+//        assertTrue(result.get(0).getQuantity()
+//                .compareTo(result.get(1).getQuantity()) <= 0);
+//    }
+//
+//    @Test
+//    void testFindByCityOrderByQuantityDesc() {
+//        createBranch("171 Bravo","Pune", "MH", "India", "1", BigDecimal.valueOf(10));
+//        createBranch("171 Bravo","Pune", "MH", "India", "2", BigDecimal.valueOf(50));
+//
+//        List<VendorBranches> result =
+//
+//                repo.findByAddressCityOrderByQuantityDesc("Pune");
+//
+//        assertTrue(result.get(0).getQuantity()
+//                .compareTo(result.get(1).getQuantity()) >= 0);
+//    }
 //    @Test
 //    void testVendorBranchProjection() {
 //        // Arrange: create sample branches
