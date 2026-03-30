@@ -35,3 +35,4 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/java/com/example/Digital_Gold_Wallet_System/frontend/
+/src/main/java/com/example/Digital_Gold_Wallet_System/config/

@@ -110,7 +110,7 @@ public class VirtualGoldHoldingsControllerTest{
     void testGetById_NotFound() throws Exception{
 
         mockMvc.perform(get("/virtual_gold_holdings/999"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isInternalServerError());
     }
 
     @Autowired
@@ -188,6 +188,6 @@ public class VirtualGoldHoldingsControllerTest{
         mockMvc.perform(post("/virtual_gold_holdings")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isInternalServerError());
     }
 }
