@@ -1,9 +1,8 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
-import com.example.Digital_Gold_Wallet_System.Projection.AddressProjection;
-import com.example.Digital_Gold_Wallet_System.Projection.VendorBranchProjection;
 import com.example.Digital_Gold_Wallet_System.entity.Addresses;
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
+import com.example.Digital_Gold_Wallet_System.entity.Vendors;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +22,6 @@ class VendorBranchesRepoTest {
     @Autowired
     private VendorBranchesRepo repo;
 
-
-    @Autowired
-    private AddressesRepo addressesRepo; // needed to save addresses if separate
-
     private VendorBranches createBranch(String street, String city, String state, String country, String postal, BigDecimal qty) {
 
         Addresses address = new Addresses();
@@ -36,17 +31,12 @@ class VendorBranchesRepoTest {
         address.setPostalCode(postal);
         address.setStreet(street);
 
-        addressesRepo.save(address); // save address first if needed
-
         VendorBranches branch = new VendorBranches();
         branch.setQuantity(qty);
         branch.setAddress(address);
-        branch.setCreatedAt(LocalDateTime.now());
 
         return repo.save(branch);
     }
-
-
 
     @Test
     void testFindAll() {
@@ -157,37 +147,81 @@ class VendorBranchesRepoTest {
         assertTrue(result.get(0).getQuantity()
                 .compareTo(result.get(1).getQuantity()) >= 0);
     }
-//    @Test
-//    void testVendorBranchProjection() {
-//        // Arrange: create sample branches
-//        createBranch("101 Avenue", "Pune", "MH", "India", "411001", BigDecimal.valueOf(20));
-//        createBranch("171 Bravo", "Mumbai", "MH", "India", "400001", BigDecimal.valueOf(30));
-//
-//        // Act: fetch using projection
-//        List<VendorBranchProjection> projections = repo.findAllBy();
-//
-//        // Assert
-//        assertFalse(projections.isEmpty());
-//        for (VendorBranchProjection proj : projections) {
-//            assertNotNull(proj.getBranchId());
-//            assertNotNull(proj.getQuantity());
-//            assertNotNull(proj.getCreatedAt());
-//
-//            AddressProjection addr = proj.getAddress();
-//            assertNotNull(addr);
-//            assertNotNull(addr.getStreet());
-//            assertNotNull(addr.getCity());
-//            assertNotNull(addr.getState());
-//            assertNotNull(addr.getPostalCode());
-//            assertNotNull(addr.getCountry());
-//
-//            // Optional: print to console
-//            System.out.println("Branch ID: " + proj.getBranchId());
-//            System.out.println("Quantity: " + proj.getQuantity());
-//            System.out.println("Address: " + addr.getStreet() + ", " + addr.getCity() +
-//                    ", " + addr.getState() + ", " + addr.getPostalCode() +
-//                    ", " + addr.getCountry());
-//            System.out.println("-----------");
-//        }
-//    }
+
+
+    @Autowired
+    private VendorsRepo vendorsRepo;
+
+    private Vendors createVendor(String name) {
+        Vendors v = new Vendors();
+        v.setVendorName(name);
+        v.setDescription("Gold Vendor");
+        v.setContactPersonName("Rahul");
+        v.setContactEmail("rahul@test.com");
+        v.setContactPhone("9876543210");
+        v.setWebsiteUrl("www.test.com");
+        v.setTotalGoldQuantity(new BigDecimal("100.50"));
+        v.setCurrentGoldPrice(new BigDecimal("6000.75"));
+        v.setCreatedAt(LocalDateTime.now());
+        return vendorsRepo.saveAndFlush(v);
+    }
+
+    private VendorBranches createBranchWithVendor(Vendors vendor, String city) {
+
+        Addresses address = new Addresses();
+        address.setCity(city);
+        address.setState("MH");
+        address.setCountry("India");
+        address.setPostalCode("000000");
+        address.setStreet("Test Street");
+
+        VendorBranches branch = new VendorBranches();
+        branch.setQuantity(BigDecimal.valueOf(10));
+        branch.setAddress(address);
+        branch.setVendors(vendor);
+
+        return repo.save(branch);
+    }
+
+    @Test
+    void testFindByVendorId() {
+
+        Vendors vendor = createVendor("Tanishq");
+
+        createBranchWithVendor(vendor, "Pune");
+        createBranchWithVendor(vendor, "Mumbai");
+
+        List<VendorBranches> result =
+                repo.findByVendorsVendorId(vendor.getVendorId());
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void testFindByVendorId_NotFound() {
+
+        List<VendorBranches> result =
+                repo.findByVendorsVendorId(999);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testBranchesMappedToCorrectVendor() {
+
+        Vendors v1 = createVendor("Tanishq");
+        Vendors v2 = createVendor("Kalyan");
+
+        createBranchWithVendor(v1, "Pune");
+        createBranchWithVendor(v2, "Delhi");
+
+        List<VendorBranches> result =
+                repo.findByVendorsVendorId(v1.getVendorId());
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Pune", result.get(0).getAddress().getCity());
+    }
 }

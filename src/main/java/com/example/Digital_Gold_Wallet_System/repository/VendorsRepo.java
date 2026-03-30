@@ -16,6 +16,7 @@ import java.util.List;
 )
 public interface VendorsRepo extends JpaRepository<Vendors, Integer> {
     List<Vendors> findByVendorName(String vendorName);
+    //List<VendorsProjection> findAllProjectedBy();
 
     //Search bar
     @RestResource(path = "findByVendorNameContainingIgnoreCase")
