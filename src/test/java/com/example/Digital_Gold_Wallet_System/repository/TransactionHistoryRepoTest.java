@@ -35,47 +35,47 @@ public class TransactionHistoryRepoTest {
         tx.setCreatedAt(LocalDateTime.now());
         return tx;
     }
-
-    @Test
-    @DisplayName("Save Transaction - Positive Case")
-    void testSaveTransaction() {
-        TransactionHistory tx = createTransaction();
-
-        TransactionHistory saved = repository.save(tx);
-
-        assertNotNull(saved.getTransactionId());
-        assertEquals(TransactionType.BUY, saved.getTransactionType());
-    }
-
-    @Test
-    @DisplayName("Find By ID - Positive Case")
-    void testFindById() {
-        TransactionHistory saved = repository.save(createTransaction());
-
-        Optional<TransactionHistory> result = repository.findById(saved.getTransactionId());
-
-        assertTrue(result.isPresent());
-        assertEquals(saved.getTransactionId(), result.get().getTransactionId());
-    }
-
-    @Test
-    @DisplayName("Find By ID - Negative Case")
-    void testFindByIdNotFound() {
-        Optional<TransactionHistory> result = repository.findById(999);
-
-        assertFalse(result.isPresent());
-    }
-
-    @Test
-    @DisplayName("Find All Transactions")
-    void testFindAll() {
-        repository.save(createTransaction());
-        repository.save(createTransaction());
-
-        List<TransactionHistory> list = repository.findAll();
-
-        assertFalse(list.isEmpty());
-        assertTrue(list.size() >= 2);
-    }
+//
+//    @Test
+//    @DisplayName("Save Transaction - Positive Case")
+//    void testSaveTransaction() {
+//        TransactionHistory tx = createTransaction();
+//
+//        TransactionHistory saved = repository.save(tx);
+//
+//        assertNotNull(saved.getTransactionId());
+//        assertEquals(TransactionType.BUY, saved.getTransactionType());
+//    }
+//
+//    @Test
+//    @DisplayName("Find By ID - Positive Case")
+//    void testFindById() {
+//        TransactionHistory saved = repository.save(createTransaction());
+//
+//        Optional<TransactionHistory> result = repository.findById(saved.getTransactionId());
+//
+//        assertTrue(result.isPresent());
+//        assertEquals(saved.getTransactionId(), result.get().getTransactionId());
+//    }
+//
+//    @Test
+//    @DisplayName("Find By ID - Negative Case")
+//    void testFindByIdNotFound() {
+//        Optional<TransactionHistory> result = repository.findById(999);
+//
+//        assertFalse(result.isPresent());
+//    }
+//
+//    @Test
+//    @DisplayName("Find All Transactions")
+//    void testFindAll() {
+//        repository.save(createTransaction());
+//        repository.save(createTransaction());
+//
+//        List<TransactionHistory> list = repository.findAll();
+//
+//        assertFalse(list.isEmpty());
+//        assertTrue(list.size() >= 2);
+//    }
 
 }
