@@ -1,0 +1,28 @@
+package com.example.Digital_Gold_Wallet_System.Controllers;
+
+import com.example.Digital_Gold_Wallet_System.service.VendorBranchService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+
+@RestController
+@RequestMapping("/branches")
+public class VendorBranchController {
+
+    private final VendorBranchService branchService;
+
+    public VendorBranchController(VendorBranchService branchService) {
+        this.branchService = branchService;
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<String> transferGold(
+            @RequestParam Integer fromBranchId,
+            @RequestParam Integer toBranchId,
+            @RequestParam BigDecimal quantity
+    ) {
+        branchService.transferGold(fromBranchId, toBranchId, quantity);
+        return ResponseEntity.ok("Transfer successful");
+    }
+}

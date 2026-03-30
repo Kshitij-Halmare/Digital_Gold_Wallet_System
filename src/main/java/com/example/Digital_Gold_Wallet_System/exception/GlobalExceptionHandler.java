@@ -14,44 +14,48 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    //Handles all Custom Exception
     @ExceptionHandler(AppException.class)
     public ResponseEntity<?> handleAppException(AppException ex){
-        return new ResponseEntity<>(ex.getMessage(),ex.getStatus());
+        return new ResponseEntity<>(ex.getMessage(), ex.getStatus());
     }
 
-    //Handles @Valid validation features
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationException(MethodArgumentNotValidException ex){
-        String message=ex.getBindingResult().getFieldErrors()
+        String message = ex.getBindingResult().getFieldErrors()
                 .stream()
-                .map(e->e.getField()+ ": "+e.getDefaultMessage())
+                .map(e -> e.getField() + ": " + e.getDefaultMessage())
                 .collect(Collectors.joining(", "));
-        return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
-    //Handles DB constraint violations
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<?> handleDataIntegrity(DataIntegrityViolationException ex){
-        return new ResponseEntity<>("Data Integrity violation: "+ex.getMostSpecificCause().getMessage(),HttpStatus.CONFLICT);
+        return new ResponseEntity<>("Data Integrity violation: " + ex.getMostSpecificCause().getMessage(), HttpStatus.CONFLICT);
     }
 
-    //Handles missing @RequestParam
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<?> handleMissingParam(MissingServletRequestParameterException ex){
-        return new ResponseEntity<>("Missing parameter : "+ex.getParameterName(),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Missing parameter: " + ex.getParameterName(), HttpStatus.BAD_REQUEST);
     }
 
-    //Handles wrong type in path/query param
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<?> handleTypeMismatch(MethodArgumentTypeMismatchException ex){
-        return new ResponseEntity<>("Invalid value for parameter: "+ex.getName(),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Invalid value for parameter: " + ex.getName(), HttpStatus.BAD_REQUEST);
     }
 
-    //Handles all remaining unexpected exceptions
+    @ExceptionHandler(BranchNotFoundException.class)
+    public ResponseEntity<String> handleBranchNotFound(BranchNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler({InsufficientGoldException.class, VendorMismatchException.class})
+    public ResponseEntity<String> handleBadRequest(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGenericException(Exception ex){
-        return new ResponseEntity<>("An unexpected error occurred: "+ex.getMessage(),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> handleGenericException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + ex.getMessage());
     }
 
 }
