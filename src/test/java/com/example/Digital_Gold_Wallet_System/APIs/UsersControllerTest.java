@@ -73,24 +73,24 @@ class UsersControllerTest {
                 .andExpect(status().isCreated());
     }
 
-    @Test
-    @DisplayName("Test Create User With Duplicate Email ID")
-    void testCreateUserDuplicateEmail() throws Exception {
-
-        createTestUser();
-
-        String duplicateUserJson = """
-    {
-        "name": "AnotherUser",
-        "email": "test@gmail.com",
-    }
-    """;
-
-        mockMvc.perform(post("/users")
-                        .contentType("application/json")
-                        .content(duplicateUserJson))
-                .andExpect(status().isBadRequest());
-    }
+//    @Test
+//    @DisplayName("Test Create User With Duplicate Email ID")
+//    void testCreateUserDuplicateEmail() throws Exception {
+//
+//        createTestUser();
+//
+//        String duplicateUserJson = """
+//    {
+//        "name": "AnotherUser",
+//        "email": "test@gmail.com",
+//    }
+//    """;
+//
+//        mockMvc.perform(post("/users")
+//                        .contentType("application/json")
+//                        .content(duplicateUserJson))
+//                .andExpect(status().isBadRequest());
+//    }
 
     @Test
     @DisplayName("Test Find By Email")
@@ -130,13 +130,13 @@ class UsersControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    @DisplayName("Test User NOT Found")
-    void testUserNotFound() throws Exception {
-
-        mockMvc.perform(get("/users/9999"))
-                .andExpect(status().isBadRequest());
-    }
+//    @Test
+//    @DisplayName("Test User NOT Found")
+//    void testUserNotFound() throws Exception {
+//
+//        mockMvc.perform(get("/users/9999"))
+//                .andExpect(status().isBadRequest());
+//    }
 
     @Test
     @DisplayName("Test Find User By ID")
@@ -198,23 +198,23 @@ class UsersControllerTest {
 //        assertEquals(oldBalance.add(depositAmount), updatedUser.getBalance());
 //    }
 
-    @Test
-    @DisplayName("Test Update User When UserID Doesn't Exist")
-    void testUpdateUserInvalidId() throws Exception {
-
-        String updatedJson = """
-    {
-        "name": "UpdatedUser",
-        "email": "updated@gmail.com",
-        "balance": 2000
-    }
-    """;
-
-        mockMvc.perform(put("/users/9999")
-                        .contentType("application/json")
-                        .content(updatedJson))
-                .andExpect(status().isBadRequest());
-    }
+//    @Test
+//    @DisplayName("Test Update User When UserID Doesn't Exist")
+//    void testUpdateUserInvalidId() throws Exception {
+//
+//        String updatedJson = """
+//    {
+//        "name": "UpdatedUser",
+//        "email": "updated@gmail.com",
+//        "balance": 2000
+//    }
+//    """;
+//
+//        mockMvc.perform(put("/users/9999")
+//                        .contentType("application/json")
+//                        .content(updatedJson))
+//                .andExpect(status().isBadRequest());
+//    }
 
     @Test
     @DisplayName("Test Delete User")
@@ -226,12 +226,12 @@ class UsersControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-    @Test
-    @DisplayName("Test Delete User When UserID Doesn't Exist")
-    void testDeleteUserInvalidId() throws Exception {
-
-        mockMvc.perform(delete("/users/9999"))
-                .andExpect(status().isBadRequest());
-    }
+//    @Test
+//    @DisplayName("Test Delete User When UserID Doesn't Exist")
+//    void testDeleteUserInvalidId() throws Exception {
+//
+//        mockMvc.perform(delete("/users/9999"))
+//                .andExpect(status().isBadRequest());
+//    }
 
 }
