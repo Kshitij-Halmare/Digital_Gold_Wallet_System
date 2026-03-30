@@ -3,10 +3,7 @@ package com.example.Digital_Gold_Wallet_System.Controllers;
 import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentMethod;
 import com.example.Digital_Gold_Wallet_System.service.VirtualGoldHoldingsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
@@ -27,6 +24,17 @@ public class VirtualGoldHoldingsController {
     public String buyVirtualGold(@RequestParam BigDecimal qty, @RequestParam Integer userId, @RequestParam Integer branchId, @RequestParam PaymentMethod pMethod){
         virtualGoldHoldingsService.buyVirtualGoldHoldings(userId, qty, branchId, pMethod);
         return "success";
+    }
+
+    @PostMapping("/convert/{id}")
+    public String convert(@PathVariable Integer id) {
+
+        try {
+            virtualGoldHoldingsService.convertToPhysical(id);
+            return "Converted successfully";
+        } catch (RuntimeException e) {
+            return "ResponseEntity.badRequest().body(e.getMessage())";
+        }
     }
 
 }
