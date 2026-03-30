@@ -12,12 +12,12 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "vendors")   // ✅ FIXED
+@Table(name = "vendors")
 public class Vendors {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vendor_id")   // ✅ good practice
+    @Column(name = "vendor_id")
     private Integer vendorId;
 
     @NotBlank
