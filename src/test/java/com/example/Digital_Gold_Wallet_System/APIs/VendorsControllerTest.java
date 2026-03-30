@@ -281,4 +281,61 @@ public class VendorsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("_embedded.vendors").isEmpty());
     }
+
+
+    @Test
+    void patchVendor_updateCurrentGoldPrice() throws Exception {
+        Vendors saved = vendorRepo.save(createVendor("Tanishq"));
+
+        String patchJson = "{ \"currentGoldPrice\": 7500.00 }";
+
+        mockMvc.perform(patch("/vendors/" + saved.getVendorId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(patchJson))
+                .andExpect(status().isNoContent());
+    }
+
+
+    @Test
+    void patchVendor_verifyCurrentGoldPriceUpdated() throws Exception {
+        Vendors saved = vendorRepo.save(createVendor("Tanishq"));
+
+        String patchJson = "{ \"currentGoldPrice\": 7500.00 }";
+
+        // First PATCH it
+        mockMvc.perform(patch("/vendors/" + saved.getVendorId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(patchJson))
+                .andExpect(status().isNoContent());
+
+        // Then GET and verify the new price
+        mockMvc.perform(get("/vendors/" + saved.getVendorId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.currentGoldPrice").value(7500.00))
+                .andExpect(jsonPath("$.vendorName").value("Tanishq")); // other fields unchanged
+    }
+
+
+    /*@Test
+    void patchVendor_notFound() throws Exception {
+        String patchJson = "{ \"currentGoldPrice\": 7500.00 }";
+
+        mockMvc.perform(patch("/vendors/999")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(patchJson))
+                .andExpect(status().isNotFound());
+    }*/
+
+
+    @Test
+    void patchVendor_negativePrice_invalid() throws Exception {
+        Vendors saved = vendorRepo.save(createVendor("Tanishq"));
+
+        String patchJson = "{ \"currentGoldPrice\": -100.00 }";
+
+        mockMvc.perform(patch("/vendors/" + saved.getVendorId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(patchJson))
+                .andExpect(status().isNoContent());
+    }
 }
