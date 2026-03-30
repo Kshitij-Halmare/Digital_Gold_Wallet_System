@@ -1,13 +1,20 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
+import com.example.Digital_Gold_Wallet_System.projections.VendorBranchesProjection;
+import com.example.Digital_Gold_Wallet_System.projections.VendorProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@RepositoryRestResource(path = "branches")
+@RepositoryRestResource(
+        path = "vendorBranches",
+        collectionResourceRel = "vendorBranches",
+        excerptProjection = VendorBranchesProjection.class
+)
 public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
 
     List<VendorBranches> findByAddressCity(String city);
@@ -21,7 +28,9 @@ public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Intege
     List<VendorBranches> findByAddressStateContainingIgnoreCase(String state);
     List<VendorBranches> findByAddressCityOrderByQuantityAsc(String city);
     List<VendorBranches> findByAddressCityOrderByQuantityDesc(String city);
-    List<VendorBranches> findByVendorsVendorId(Integer vendorId);
+//    List<VendorBranches> findByVendorsVendorId(Integer vendorId);
+
+    List<VendorBranches> findByVendorsVendorId(@Param("vendorId") Integer vendorId);
 
     List<VendorBranches> findByVendorsVendorIdAndAddressCity(Integer vendorId, String city);
 
