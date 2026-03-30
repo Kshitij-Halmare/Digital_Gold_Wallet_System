@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -56,31 +55,26 @@ public class VendorsControllerTest {
                 "}";
     }
 
-    // ✅ TC-1
     @Test
     void tc1_getAllVendors_positive() throws Exception {
-
-        List<Vendors> vendors = vendorRepo.findAll();
-
         vendorRepo.save(createVendor("Tanishq"));
         vendorRepo.save(createVendor("Kalyan"));
 
-        mockMvc.perform(get("/vendors?size=1000"))
+        mockMvc.perform(get("/vendors"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("_embedded.vendors").isArray())
-                .andExpect(jsonPath("_embedded.vendors.length()").value(vendors.size()+2));
+                .andExpect(jsonPath("_embedded.vendors.length()").value(2));
     }
 
-    // ✅ TC-2
-//    @Test
-//    void tc2_getAllVendors_empty() throws Exception {
-//        mockMvc.perform(get("/vendors"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("_embedded.vendors").isEmpty());
-//    }
-
-    // ✅ TC-3
     @Test
+    void tc2_getAllVendors_empty() throws Exception {
+        mockMvc.perform(get("/vendors"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("_embedded.vendors").isEmpty());
+    }
+
+    @Test
+    @DisplayName("Get vendor by ID - success")
     void tc3_getVendorById_positive() throws Exception {
         Vendors saved = vendorRepo.save(createVendor("Tanishq"));
 
@@ -89,14 +83,13 @@ public class VendorsControllerTest {
                 .andExpect(jsonPath("$.vendorName").value("Tanishq"));
     }
 
-    // ✅ TC-4
     @Test
+    @DisplayName("Get vendor by ID - not found")
     void tc4_getVendorById_notFound() throws Exception {
         mockMvc.perform(get("/vendors/999"))
                 .andExpect(status().isInternalServerError());
     }
 
-    // ✅ TC-5 (Search)
     @Test
     void tc5_searchVendorByName() throws Exception {
         vendorRepo.save(createVendor("Tanishq"));
@@ -107,8 +100,9 @@ public class VendorsControllerTest {
                 .andExpect(jsonPath("_embedded.vendors").isArray());
     }
 
-    // ✅ TC-6 (Create)
+
     @Test
+    @DisplayName("Create vendor - success")
     void tc6_addVendor_positive() throws Exception {
         mockMvc.perform(post("/vendors")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -116,7 +110,6 @@ public class VendorsControllerTest {
                 .andExpect(status().isCreated());
     }
 
-    // ✅ TC-7 (Validation FAIL — only works if @Valid added)
     @Test
     void tc7_addVendor_invalid() throws Exception {
         String invalidJson = "{ \"vendorName\": \"\" }";
@@ -127,7 +120,6 @@ public class VendorsControllerTest {
                 .andExpect(status().isInternalServerError());
     }
 
-    // ✅ TC-9 (Update FULL replace)
     @Test
     void tc9_updateVendor() throws Exception {
         Vendors saved = vendorRepo.save(createVendor("Old"));
@@ -138,7 +130,6 @@ public class VendorsControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-    // ✅ TC-10
     @Test
     void tc10_updateVendor_notFound() throws Exception {
         mockMvc.perform(put("/vendors/999")
@@ -147,7 +138,6 @@ public class VendorsControllerTest {
                 .andExpect(status().isInternalServerError());
     }
 
-    // ✅ TC-11 (WILL FAIL unless validation enabled)
     @Test
     void tc11_update_invalid() throws Exception {
         Vendors saved = vendorRepo.save(createVendor("XYZ"));

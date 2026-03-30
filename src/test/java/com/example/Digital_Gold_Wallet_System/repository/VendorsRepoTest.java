@@ -21,21 +21,24 @@ class VendorsRepoTest {
     @Autowired
     private VendorsRepo vendorsRepo;
 
-    @Test
-    void testSaveVendor_AllFields() {
-
+    private Vendors createVendor(String name) {
         Vendors v = new Vendors();
-        v.setVendorName("Tanishq");
+        v.setVendorName(name);
         v.setDescription("Gold Vendor");
         v.setContactPersonName("Rahul");
         v.setContactEmail("rahul@test.com");
         v.setContactPhone("9876543210");
-        v.setWebsiteUrl("www.tanishq.com");
+        v.setWebsiteUrl("www.test.com");
         v.setTotalGoldQuantity(new BigDecimal("100.50"));
         v.setCurrentGoldPrice(new BigDecimal("6000.75"));
         v.setCreatedAt(LocalDateTime.now());
+        return v;
+    }
 
-        Vendors saved = vendorsRepo.save(v);
+    @Test
+    void testSaveVendor_AllFields() {
+
+        Vendors saved = vendorsRepo.save(createVendor("Tanishq"));
 
         assertNotNull(saved.getVendorId());
         assertEquals("Tanishq", saved.getVendorName());
@@ -44,54 +47,27 @@ class VendorsRepoTest {
     @Test
     void testFindAll_VendorsExist() {
 
+        vendorsRepo.save(createVendor("Tanishq"));
+        vendorsRepo.save(createVendor("Kalyan"));
+
         List<Vendors> vendors = vendorsRepo.findAll();
-
-        Vendors v1 = new Vendors();
-        v1.setVendorName("Tanishq");
-        v1.setDescription("Gold Vendor");
-        v1.setContactPersonName("Rahul");
-        v1.setContactEmail("rahul@test.com");
-        v1.setContactPhone("9876543210");
-        v1.setWebsiteUrl("www.tanishq.com");
-        v1.setTotalGoldQuantity(new BigDecimal("100.50"));
-        v1.setCurrentGoldPrice(new BigDecimal("6000.75"));
-        v1.setCreatedAt(LocalDateTime.now());
-
-        Vendors v2 = new Vendors();
-        v2.setVendorName("Kalyan");
-        v2.setDescription("Gold Vendor");
-        v2.setContactPersonName("Rahul");
-        v2.setContactEmail("rahul@test.com");
-        v2.setContactPhone("9876543210");
-        v2.setWebsiteUrl("www.tanishq.com");
-        v2.setTotalGoldQuantity(new BigDecimal("100.50"));
-        v2.setCurrentGoldPrice(new BigDecimal("6000.75"));
-        v2.setCreatedAt(LocalDateTime.now());
-
-        vendorsRepo.save(v1);
-        vendorsRepo.save(v2);
 
         List<Vendors> result = vendorsRepo.findAll();
 
-        assertEquals(vendors.size()+2, result.size());
+        assertEquals(vendors.size(), result.size());
+    }
+
+    @Test
+    void testFindAll_Empty() {
+        List<Vendors> result = vendorsRepo.findAll();
+        assertTrue(result.isEmpty());
     }
 
 
     @Test
     void testFindByVendorName_Found() {
 
-        Vendors v = new Vendors();
-        v.setVendorName("Malabar");
-        v.setDescription("Gold Vendor");
-        v.setContactPersonName("Rahul");
-        v.setContactEmail("rahul@test.com");
-        v.setContactPhone("9876543210");
-        v.setWebsiteUrl("www.tanishq.com");
-        v.setTotalGoldQuantity(new BigDecimal("100.50"));
-        v.setCurrentGoldPrice(new BigDecimal("6000.75"));
-        v.setCreatedAt(LocalDateTime.now());
-
-        vendorsRepo.save(v);
+        vendorsRepo.save(createVendor("Malabar"));
 
         List<Vendors> result = vendorsRepo.findByVendorName("Malabar");
 
@@ -107,6 +83,32 @@ class VendorsRepoTest {
 
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void testUpdateVendor() {
+        Vendors saved = vendorsRepo.save(createVendor("OldName"));
+
+        saved.setVendorName("UpdatedName");
+        vendorsRepo.save(saved);
+
+        Vendors updated = vendorsRepo.findById(saved.getVendorId()).orElse(null);
+
+        assertNotNull(updated);
+        assertEquals("UpdatedName", updated.getVendorName());
+    }
+
+    @Test
+    void testSaveVendor_MinimalFields() {
+        Vendors v = new Vendors();
+        v.setVendorName("Minimal");
+        v.setCreatedAt(LocalDateTime.now());
+
+        Vendors saved = vendorsRepo.save(v);
+
+        assertNotNull(saved.getVendorId());
+        assertEquals("Minimal", saved.getVendorName());
+    }
+
 
 
 }
