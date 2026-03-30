@@ -20,4 +20,9 @@ public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Intege
     List<VendorBranches> findByAddressCityAndAddressState(String city, String state);
     List<VendorBranches> findByVendorsVendorId(Integer vendorId);
     List<VendorBranches> findByVendorsVendorIdAndAddressCity(Integer vendorId, String city);
+    List<VendorBranch> findByAddressCityContainingIgnoreCase(String city);
+
+List<VendorBranch> findByAddressCityOrderByQuantityAsc(String city);
+
+List<VendorBranch> findByAddressCityOrderByQuantityDesc(String city);
 }
