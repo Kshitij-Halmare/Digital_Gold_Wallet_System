@@ -1,5 +1,6 @@
 package com.example.Digital_Gold_Wallet_System.Controllers;
 
+import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
 import com.example.Digital_Gold_Wallet_System.service.VendorBranchService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +25,10 @@ public class VendorBranchController {
     ) {
         branchService.transferGold(fromBranchId, toBranchId, quantity);
         return ResponseEntity.ok("Transfer successful");
+    }
+
+    @PutMapping("/updateQuantity")
+    public String updateQuantity(@RequestBody VendorBranches vendorBranches){
+        return branchService.addQuantityToVendor(vendorBranches);
     }
 }
