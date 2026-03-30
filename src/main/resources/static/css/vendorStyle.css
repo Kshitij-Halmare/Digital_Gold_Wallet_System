@@ -1,0 +1,388 @@
+/* ── CSS VARIABLES (standalone — no indexStyle.css needed) ── */
+:root {
+  --gold:      #C9973F;
+  --gold-dim:  #8a6828;
+  --gold-pale: #e8c97a;
+  --bg:        #080705;
+  --card-bg:   #0f0d09;
+  --text:      #ede6d8;
+  --muted:     #5a5040;
+}
+
+*, *::before, *::after {
+  margin: 0; padding: 0; box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── BACKGROUND MESH ── */
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%,  rgba(201,151,63,0.09) 0%, transparent 65%),
+    radial-gradient(ellipse 30% 30% at 15% 80%, rgba(201,151,63,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 30% at 85% 70%, rgba(201,151,63,0.04) 0%, transparent 55%);
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 70px 24px 56px;
+}
+
+.page-header .header-sub {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+  opacity: 0.7;
+}
+
+.page-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 300;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.page-header h1 em {
+  font-style: italic;
+  color: var(--gold-pale);
+}
+
+/* ── CONTROLS ── */
+.controls {
+  position: relative;
+  z-index: 1;
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 28px 36px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  background: #0f0d09;
+  border: 1px solid #222016;
+  border-radius: 8px;
+  padding: 10px 14px 10px 38px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-box input::placeholder { color: #3a3428; }
+.search-box input:focus { border-color: var(--gold-dim); }
+
+.search-box .icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #3a3428;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.filter-select {
+  background: #0f0d09;
+  border: 1px solid #222016;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: var(--muted);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.filter-select:focus { border-color: var(--gold-dim); }
+.filter-select option { background: #0f0d09; }
+
+.count-badge {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── BRANCH GRID ── */
+.branch-grid {
+  position: relative;
+  z-index: 1;
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 28px 80px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 760px) {
+  .branch-grid { grid-template-columns: 1fr; }
+}
+
+/* ── BRANCH CARD ── */
+.branch-card {
+  background: var(--card-bg);
+  border: 1px solid #1e1b13;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+  animation: fadeIn 0.6s ease both;
+}
+
+.branch-card:hover {
+  border-color: #3a3020;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.5);
+}
+
+/* top gold bar on hover */
+.branch-card-bar {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+
+.branch-card:hover .branch-card-bar {
+  transform: scaleX(1);
+}
+
+/* ── CARD HEAD ── */
+.branch-card-head {
+  padding: 22px 24px 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #181410;
+}
+
+.branch-vendor {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.branch-vendor span {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.branch-head-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.branch-id-badge {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  background: #181410;
+  border: 1px solid #2a2416;
+  border-radius: 4px;
+  padding: 3px 9px;
+}
+
+.qty-chip { text-align: right; }
+
+.qty-chip .qty-value {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--gold-pale);
+  line-height: 1;
+}
+
+.qty-chip .qty-label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* ── CARD BODY ── */
+.branch-card-body {
+  padding: 18px 24px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 20px;
+}
+
+.info-label {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #3a3428;
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 0.8rem;
+  color: #8a7e68;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.info-value.highlight { color: var(--text); }
+
+.info-block.full { grid-column: 1 / -1; }
+
+/* ── CARD STATS ── */
+.branch-card-stats {
+  padding: 14px 24px;
+  border-top: 1px solid #181410;
+  display: flex;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+  padding: 0 10px;
+}
+
+.stat-item + .stat-item {
+  border-left: 1px solid #181410;
+}
+
+.stat-num {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: var(--gold-pale);
+  line-height: 1;
+}
+
+.stat-lbl {
+  display: block;
+  font-size: 8.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #3a3428;
+  margin-top: 4px;
+}
+
+/* ── LOADING STATE ── */
+.loading-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.loader {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #1e1b13;
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── EMPTY / ERROR STATE ── */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.empty-state span {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  margin-bottom: 12px;
+  opacity: 0.3;
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 32px 24px;
+}
+
+.footer-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.3;
+}
+
+.footer-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: #2e2a1c;
+  letter-spacing: 0.12em;
+  font-weight: 300;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

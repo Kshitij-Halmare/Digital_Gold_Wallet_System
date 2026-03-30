@@ -8,8 +8,11 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.math.BigDecimal;
 import java.util.List;
 
-@RepositoryRestResource(path = "branches", excerptProjection = VendorBranchProjection.class)
-public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
+@RepositoryRestResource(
+        path = "branches",
+        collectionResourceRel = "branches",
+        excerptProjection = VendorBranchProjection.class
+)public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
 
     List<VendorBranchProjection> findAllBy();
     List<VendorBranches> findByAddressCity(String city);

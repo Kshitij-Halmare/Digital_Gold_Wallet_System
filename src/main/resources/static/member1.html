@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Vendor Branches — Digital Gold Wallet System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/indexStyle.css"/>
+    <link rel="stylesheet" href="css/vendorStyle.css"/>
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <span class="header-sub">Digital Gold Wallet System</span>
+    <h1>Vendor <em>Branches</em></h1>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+    <div class="search-box">
+        <span class="icon">⌕</span>
+        <input type="text" id="searchInput" placeholder="Search by vendor, city, state…" oninput="renderBranches()"/>
+    </div>
+    <select class="filter-select" id="cityFilter" onchange="renderBranches()">
+        <option value="">All Cities</option>
+    </select>
+    <div class="count-badge" id="countBadge">— branches</div>
+</div>
+
+<!-- BRANCH GRID -->
+<div class="branch-grid" id="branchGrid"></div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-dot"></div>
+        <div class="footer-text">Digital Gold Wallet System</div>
+        <div class="footer-dot"></div>
+    </div>
+</footer>
+
+<script src="js/vendors.js"></script>
+
+</body>
+</html>
