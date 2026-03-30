@@ -20,6 +20,9 @@ public class VirtualGoldHoldingsService {
     private UsersRepo usersRepo;
 
     @Autowired
+    private PhysicalGoldTransactionsRepo phytxnRepo;
+
+    @Autowired
     private PaymentsRepo paymentsRepo;
 
     @Autowired
@@ -42,25 +45,47 @@ public class VirtualGoldHoldingsService {
 
     @Transactional
     public void convertToPhysical(Integer holdingId) {
-
+        //get  holding
         VirtualGoldHoldings holding = holdingRepo.findById(holdingId).orElseThrow(() -> new RuntimeException("Holding not found"));
 
-        if (HoldingStatus.CONVERTED.equals(holding.getHoldingStatus())) {
+        //check if already converted
+        if (holding.getHoldingStatus().equals(HoldingStatus.CONVERTED)) {
             throw new RuntimeException("Already converted");
         }
 
+        //check address
         if (holding.getUser() == null || holding.getUser().getAddress() == null) {
             throw new RuntimeException("Delivery address required");
         }
 
-        PhysicalGoldTransactions txn = new PhysicalGoldTransactions();
+        //create physical gold transaction
+        PhysicalGoldTransactions phytxn = new PhysicalGoldTransactions();
+        phytxn.setUser(holding.getUser());
+        phytxn.setBranch(holding.getBranch());
+        phytxn.setQuantity(holding.getQuantity());
+        phytxn.setCreatedAt(LocalDateTime.now());
+        phytxn.setDeliveryAddress(holding.getUser().getAddress());
+
+        phytxnRepo.save(phytxn);
+
+        //calculate total amount based on current price
+        VendorBranches branch = holding.getBranch();
+        Vendors vendor = branch.getVendors();
+        BigDecimal currentPrice = vendor.getCurrentGoldPrice();
+        BigDecimal amount = holding.getQuantity().multiply(currentPrice);
+
+        //create transaction of type convert
+        TransactionHistory txn = new TransactionHistory();
+        txn.setTransactionType(TransactionType.CONVERT_TO_PHYSICAL);
+        txn.setTransactionStatus(TransactionStatus.SUCCESS);
+        txn.setQuantity(holding.getQuantity());
+        txn.setAmount(amount);
         txn.setUser(holding.getUser());
         txn.setBranch(holding.getBranch());
-        txn.setQuantity(holding.getQuantity());
         txn.setCreatedAt(LocalDateTime.now());
-        txn.setDeliveryAddress(holding.getUser().getAddress());
 
-        txnRepo.save(txn);
+        transactionHistoryRepo.save(txn);
+
 
         holding.setHoldingStatus(HoldingStatus.CONVERTED);
         holdingRepo.save(holding);
