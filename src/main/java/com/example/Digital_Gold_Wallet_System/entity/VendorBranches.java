@@ -18,7 +18,7 @@ public class VendorBranches {
 
     @NotNull
     @PositiveOrZero
-    @Column(nullable = false,precision = 18, scale = 2)
+    @Column(nullable = false, precision = 18, scale = 2)
     private BigDecimal quantity;
 
     @Column(name = "createdAt", columnDefinition = "DATETIME")

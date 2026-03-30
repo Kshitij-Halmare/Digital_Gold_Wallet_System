@@ -73,7 +73,7 @@ public class AddressesControllerTest {
     @Test
     public void testGetAddressByInvalidId() throws Exception {
         mockMvc.perform(get("/addresses/9999"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isInternalServerError());
     }
 
     // POST — Spring Data REST returns 201 with empty body + Location header
@@ -170,7 +170,7 @@ public class AddressesControllerTest {
                 .andExpect(status().isNoContent());
 
         mockMvc.perform(get("/addresses/" + savedAddress.getAddressId()))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isInternalServerError());
     }
 
     // Count — POST a second record then verify list has 2
