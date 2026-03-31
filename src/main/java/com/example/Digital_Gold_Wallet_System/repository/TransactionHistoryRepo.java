@@ -1,5 +1,6 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
+import com.example.Digital_Gold_Wallet_System.Projection.PhysicalGoldTransactionProjection;
 import com.example.Digital_Gold_Wallet_System.Projection.TransactionHistoryProjection;
 import com.example.Digital_Gold_Wallet_System.entity.TransactionHistory;
 import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionType;
@@ -41,4 +42,7 @@ public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory
     // Used by TC-36,37
     List<TransactionHistory> findByBranchBranchIdAndCreatedAtBetween(
             Integer branchId, LocalDateTime from, LocalDateTime to);
+
+    List<PhysicalGoldTransactionProjection>
+    findByUserUserIdAndTransactionType(Integer userId, TransactionType transactionType);
 }

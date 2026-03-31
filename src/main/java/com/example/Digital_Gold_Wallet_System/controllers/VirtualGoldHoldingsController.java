@@ -1,4 +1,4 @@
-package com.example.Digital_Gold_Wallet_System.Controllers;
+package com.example.Digital_Gold_Wallet_System.controllers;
 
 import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentMethod;
 import com.example.Digital_Gold_Wallet_System.service.VirtualGoldHoldingsService;
@@ -33,7 +33,7 @@ public class VirtualGoldHoldingsController {
             virtualGoldHoldingsService.convertToPhysical(id);
             return "Converted successfully";
         } catch (RuntimeException e) {
-            return "ResponseEntity.badRequest().body(e.getMessage())";
+            return e.getMessage();
         }
     }
 
