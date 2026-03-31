@@ -1,6 +1,5 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
-import com.example.Digital_Gold_Wallet_System.Projection.PhysicalGoldTransactionProjection;
 import com.example.Digital_Gold_Wallet_System.Projection.TransactionHistoryProjection;
 import com.example.Digital_Gold_Wallet_System.entity.TransactionHistory;
 import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionType;
@@ -26,23 +25,20 @@ public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory
     List<TransactionHistory> findByTransactionType(TransactionType type);
 
     // Used by TC-26,27
-    List<TransactionHistory> findByTransactionStatus(TransactionStatus status);
+//    List<TransactionHistory> findByTransactionStatus(TransactionStatus status);
+//
+//    // Used by TC-28,29
+//    List<TransactionHistory> findByCreatedAtBetween(LocalDateTime from, LocalDateTime to);
 
-    // Used by TC-28,29
-    List<TransactionHistory> findByCreatedAtBetween(LocalDateTime from, LocalDateTime to);
-
-    // Used by TC-32,33
-    List<TransactionHistory> findByBranchBranchIdAndTransactionType(
-            Integer branchId, TransactionType type);
-
-    // Used by TC-34,35
-    List<TransactionHistory> findByBranchBranchIdAndTransactionStatus(
-            Integer branchId, TransactionStatus status);
-
-    // Used by TC-36,37
-    List<TransactionHistory> findByBranchBranchIdAndCreatedAtBetween(
-            Integer branchId, LocalDateTime from, LocalDateTime to);
-
-    List<PhysicalGoldTransactionProjection>
-    findByUserUserIdAndTransactionType(Integer userId, TransactionType transactionType);
+//    // Used by TC-32,33
+//    List<TransactionHistory> findByBranchBranchIdAndTransactionType(
+//            Integer branchId, TransactionType type);
+//
+//    // Used by TC-34,35
+//    List<TransactionHistory> findByBranchBranchIdAndTransactionStatus(
+//            Integer branchId, TransactionStatus status);
+//
+//    // Used by TC-36,37
+//    List<TransactionHistory> findByBranchBranchIdAndCreatedAtBetween(
+//            Integer branchId, LocalDateTime from, LocalDateTime to);
 }
