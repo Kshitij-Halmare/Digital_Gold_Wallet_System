@@ -36,70 +36,70 @@ public class TransactionControllerRepoTest {
 
     @Autowired
     private UsersRepo usersRepo;
-//    private VendorBranches createBranch() {
-//        Addresses address = new Addresses();
-//        address.setCity("Pune");
-//        address.setState("Maharashtra");
-//        address.setCountry("India");
-//        address.setPostalCode("411001");
-//        address.setStreet("CAvenue");
-//
-//        VendorBranches branch = new VendorBranches();
-//        branch.setQuantity(BigDecimal.valueOf(100));
-//        branch.setAddress(address);
-//        branch.setCreatedAt(LocalDateTime.now());
-//
-//        return branchRepo.save(branch);
-//    }
-//
-//    private Users createUser() {
-//        Users user = new Users();
-//        user.setName("Test User");
-//        // UUID ensures no two tests ever collide on the unique email constraint
-//        user.setEmail("test_" + UUID.randomUUID() + "@example.com");
-//        user.setCreatedAt(LocalDateTime.now());
-//
-//        return usersRepo.save(user);
-//    }
-//
-//    private TransactionHistory createTransaction(
-//            VendorBranches branch,
-//            Users user,
-//            TransactionType type,
-//            TransactionStatus status,
-//            LocalDateTime createdAt
-//    ) {
-//        TransactionHistory tx = new TransactionHistory();
-//        tx.setTransactionType(type);
-//        tx.setTransactionStatus(status);
-//        tx.setQuantity(BigDecimal.valueOf(5));
-//        tx.setAmount(BigDecimal.valueOf(30000));
-//        tx.setBranch(branch);
-//        tx.setUser(user);
-//        tx.setCreatedAt(createdAt);
-//
-//        return transactionRepo.save(tx);
-//    }
-//    @Test
-//    @DisplayName("TC-20: getTransactionsByBranchId - Positive")
-//    void tc20_getTransactionsByBranchId_positive() {
-//        VendorBranches branch = createBranch();
-//        Users user = createUser();
-//        createTransaction(branch, user, TransactionType.BUY, TransactionStatus.SUCCESS, LocalDateTime.now());
-//
-//        List<TransactionHistory> result = transactionRepo.findByBranchBranchId(branch.getBranchId());
-//
-//        assertFalse(result.isEmpty());
-//        result.forEach(tx -> assertEquals(branch.getBranchId(), tx.getBranch().getBranchId()));
-//    }
-//
-//    @Test
-//    @DisplayName("TC-21: getTransactionsByBranchId - Negative")
-//    void tc21_getTransactionsByBranchId_notFound() {
-//        List<TransactionHistory> result = transactionRepo.findByBranchBranchId(999);
-//
-//        assertTrue(result.isEmpty());
-//    }
+    private VendorBranches createBranch() {
+        Addresses address = new Addresses();
+        address.setCity("Pune");
+        address.setState("Maharashtra");
+        address.setCountry("India");
+        address.setPostalCode("411001");
+        address.setStreet("CAvenue");
+
+        VendorBranches branch = new VendorBranches();
+        branch.setQuantity(BigDecimal.valueOf(100));
+        branch.setAddress(address);
+        branch.setCreatedAt(LocalDateTime.now());
+
+        return branchRepo.save(branch);
+    }
+
+    private Users createUser() {
+        Users user = new Users();
+        user.setName("Test User");
+        // UUID ensures no two tests ever collide on the unique email constraint
+        user.setEmail("test_" + UUID.randomUUID() + "@example.com");
+        user.setCreatedAt(LocalDateTime.now());
+
+        return usersRepo.save(user);
+    }
+
+    private TransactionHistory createTransaction(
+            VendorBranches branch,
+            Users user,
+            TransactionType type,
+            TransactionStatus status,
+            LocalDateTime createdAt
+    ) {
+        TransactionHistory tx = new TransactionHistory();
+        tx.setTransactionType(type);
+        tx.setTransactionStatus(status);
+        tx.setQuantity(BigDecimal.valueOf(5));
+        tx.setAmount(BigDecimal.valueOf(30000));
+        tx.setBranch(branch);
+        tx.setUser(user);
+        tx.setCreatedAt(createdAt);
+
+        return transactionRepo.save(tx);
+    }
+    @Test
+    @DisplayName("TC-20: getTransactionsByBranchId - Positive")
+    void tc20_getTransactionsByBranchId_positive() {
+        VendorBranches branch = createBranch();
+        Users user = createUser();
+        createTransaction(branch, user, TransactionType.BUY, TransactionStatus.SUCCESS, LocalDateTime.now());
+
+        List<TransactionHistory> result = transactionRepo.findByBranchBranchId(branch.getBranchId());
+
+        assertFalse(result.isEmpty());
+        result.forEach(tx -> assertEquals(branch.getBranchId(), tx.getBranch().getBranchId()));
+    }
+
+    @Test
+    @DisplayName("TC-21: getTransactionsByBranchId - Negative")
+    void tc21_getTransactionsByBranchId_notFound() {
+        List<TransactionHistory> result = transactionRepo.findByBranchBranchId(999);
+
+        assertTrue(result.isEmpty());
+    }
 //
 //    @Test
 //    @DisplayName("TC-22: getTransactionsByUserId - Positive")
