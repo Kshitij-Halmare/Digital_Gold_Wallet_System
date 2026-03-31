@@ -31,6 +31,6 @@ public interface TransactionHistoryProjection {
 
     interface BranchInfo {
         Integer getBranchId();
-        String getBranchName(); // adjust based on your VendorBranches entity
+//        String getBranchName(); // adjust based on your VendorBranches entity
     }
 }

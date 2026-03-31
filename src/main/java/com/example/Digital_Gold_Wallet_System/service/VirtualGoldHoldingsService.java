@@ -155,15 +155,14 @@ public class VirtualGoldHoldingsService {
     @Transactional
     public void sellVirtualGoldHoldings(Integer holdingId, PaymentMethod pMethod) {
 
-        TransactionHistory txn = transactionHistoryRepo.findById(holdingId).orElseThrow(() -> new ResourceNotFoundException("TransactionHistory not found"));
+        VirtualGoldHoldings holding = virtualGoldHoldingsRepo.findById(holdingId).orElseThrow(() -> new ResourceNotFoundException("Holding not found"));
 
-        Users user = usersRepo.findById(txn.getUser().getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Users user = usersRepo.findById(holding.getUser().getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        VendorBranches branch = vendorBranchesRepo.findById(txn.getBranch().getBranchId()).orElseThrow(() -> new ResourceNotFoundException("Branch not found"));
+        VendorBranches branch = vendorBranchesRepo.findById(holding.getBranch().getBranchId()).orElseThrow(() -> new ResourceNotFoundException("Branch not found"));
 
         Vendors vendor = branch.getVendors();
 
-        VirtualGoldHoldings holding = virtualGoldHoldingsRepo.findById(holdingId).orElseThrow(() -> new ResourceNotFoundException("Holding not found"));
         holding.setHoldingStatus(HoldingStatus.SOLD);
         holdingRepo.save(holding);
 

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -36,12 +37,15 @@ public class Users {
     private Addresses address;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<VirtualGoldHoldings> virtualGoldHoldings;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<TransactionHistory> transactions;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Payments> payments;
 
     @PrePersist
