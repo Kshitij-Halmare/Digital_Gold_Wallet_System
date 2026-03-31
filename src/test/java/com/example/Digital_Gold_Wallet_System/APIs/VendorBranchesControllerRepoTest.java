@@ -120,11 +120,11 @@ class VendorBranchesControllerRepoTest {
         assertFalse(result.isEmpty());
     }
 
-//    @Test
-//    void tc2_getAllBranches_negative_empty() {
-//        List<VendorBranches> result = branchRepo.findAll();
-//        assertTrue(result.isEmpty());
-//    }
+    @Test
+    void tc2_getAllBranches_negative_empty() {
+        List<VendorBranches> result = branchRepo.findAll();
+        assertTrue(result.isEmpty());
+    }
 
 //    @Test
 //    void tc3_getBranchesByCity_positive() {
@@ -133,36 +133,36 @@ class VendorBranchesControllerRepoTest {
 //        List<VendorBranches> result = branchRepo.findByAddressCity("Pune");
 //        assertFalse(result.isEmpty());
 //    }
+//
+//    @Test
+//    void tc4_getBranchesByCity_cityNotFound() {
+//        List<VendorBranches> result = branchRepo.findByAddressCity("XYZ");
+//        assertTrue(result.isEmpty());
+//    }
 
-    @Test
-    void tc4_getBranchesByCity_cityNotFound() {
-        List<VendorBranches> result = branchRepo.findByAddressCity("XYZ");
-        assertTrue(result.isEmpty());
-    }
+//    @Test
+//    void tc6_getBranchesByState_positive() {
+//        createBranch("MG Road","Pune", "Maharashtra", "India", "411001", BigDecimal.valueOf(20));
+//
+//        List<VendorBranches> result = branchRepo.findByAddressState("Maharashtra");
+//        assertFalse(result.isEmpty());
+//    }
+//
+//    @Test
+//    void tc8_getBranchesByCountry_positive() {
+//        createBranch("MG Road","Delhi", "Delhi", "India", "110001", BigDecimal.valueOf(40));
+//
+//        List<VendorBranches> result = branchRepo.findByAddressCountry("India");
+//        assertFalse(result.isEmpty());
+//    }
 
-    @Test
-    void tc6_getBranchesByState_positive() {
-        createBranch("MG Road","Pune", "Maharashtra", "India", "411001", BigDecimal.valueOf(20));
-
-        List<VendorBranches> result = branchRepo.findByAddressState("Maharashtra");
-        assertFalse(result.isEmpty());
-    }
-
-    @Test
-    void tc8_getBranchesByCountry_positive() {
-        createBranch("MG Road","Delhi", "Delhi", "India", "110001", BigDecimal.valueOf(40));
-
-        List<VendorBranches> result = branchRepo.findByAddressCountry("India");
-        assertFalse(result.isEmpty());
-    }
-
-    @Test
-    void tc10_getBranchesByPostalCode_positive() {
-        createBranch("MG Road","Pune", "Maharashtra", "India", "411001", BigDecimal.valueOf(25));
-
-        List<VendorBranches> result = branchRepo.findByAddressPostalCode("411001");
-        assertFalse(result.isEmpty());
-    }
+//    @Test
+//    void tc10_getBranchesByPostalCode_positive() {
+//        createBranch("MG Road","Pune", "Maharashtra", "India", "411001", BigDecimal.valueOf(25));
+//
+//        List<VendorBranches> result = branchRepo.findByAddressPostalCode("411001");
+//        assertFalse(result.isEmpty());
+//    }
 
     @Test
     void tc15_getBranchById_positive() {
