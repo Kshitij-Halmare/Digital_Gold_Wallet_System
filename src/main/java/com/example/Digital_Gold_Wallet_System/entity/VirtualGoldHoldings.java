@@ -3,6 +3,7 @@ package com.example.Digital_Gold_Wallet_System.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.example.Digital_Gold_Wallet_System.entity.enums.HoldingStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -23,6 +24,9 @@ public class VirtualGoldHoldings {
     @Column(columnDefinition = "DATETIME",name = "createdAt")
     private LocalDateTime createdAt;
 
+    @Enumerated(EnumType.STRING)
+    private HoldingStatus holdingStatus;
+
     @ManyToOne
     @JoinColumn(name = "userId")
     private Users user;
@@ -30,6 +34,4 @@ public class VirtualGoldHoldings {
     @ManyToOne
     @JoinColumn(name = "branchId")
     private VendorBranches branch;
-
-    private boolean converted;
 }
