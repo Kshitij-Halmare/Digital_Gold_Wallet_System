@@ -25,6 +25,8 @@ public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory
     // Used by TC-24,25
     List<TransactionHistory> findByTransactionType(TransactionType type);
 
+    List<PhysicalGoldTransactionProjection> findByUserUserIdAndTransactionType(Integer userId, TransactionType transactionType);
+
     // Used by TC-26,27
 //    List<TransactionHistory> findByTransactionStatus(TransactionStatus status);
 //
