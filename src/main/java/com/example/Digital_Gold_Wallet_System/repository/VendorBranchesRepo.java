@@ -1,10 +1,8 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
+import com.example.Digital_Gold_Wallet_System.Projection.VendorBranchProjection;
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
-import com.example.Digital_Gold_Wallet_System.projections.VendorBranchesProjection;
-import com.example.Digital_Gold_Wallet_System.projections.VendorProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.math.BigDecimal;
@@ -13,29 +11,22 @@ import java.util.List;
 @RepositoryRestResource(
         path = "vendorBranches",
         collectionResourceRel = "vendorBranches",
-        excerptProjection = VendorBranchesProjection.class
-)
-public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
+        excerptProjection = VendorBranchProjection.class
+)public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
 
+    List<VendorBranchProjection> findAllBy();
     List<VendorBranches> findByAddressCity(String city);
     List<VendorBranches> findByAddressState(String state);
     List<VendorBranches> findByAddressCountry(String country);
     List<VendorBranches> findByAddressPostalCode(String postalCode);
     List<VendorBranches> findByQuantityBetween(BigDecimal min, BigDecimal max);
     List<VendorBranches> findByAddressCityAndAddressState(String city, String state);
-    List<VendorBranches> findByAddressStateAndAddressCountry(String state, String country);
-    List<VendorBranches> findByAddressCityContainingIgnoreCase(String city);
-    List<VendorBranches> findByAddressStateContainingIgnoreCase(String state);
-    List<VendorBranches> findByAddressCityOrderByQuantityAsc(String city);
-    List<VendorBranches> findByAddressCityOrderByQuantityDesc(String city);
-//    List<VendorBranches> findByVendorsVendorId(Integer vendorId);
-
-    List<VendorBranches> findByVendorsVendorId(@Param("vendorId") Integer vendorId);
-
+    List<VendorBranches> findByVendorsVendorId(Integer vendorId);
     List<VendorBranches> findByVendorsVendorIdAndAddressCity(Integer vendorId, String city);
 
-    List<VendorBranches> findByVendorsVendorIdAndAddressState(Integer vendorId, String state);
+    List<VendorBranches> findByAddressCityContainingIgnoreCase(String pun);
 
-    List<VendorBranches> findByVendorsVendorIdAndAddressCountry(Integer vendorId, String country);
+    List<VendorBranches> findByAddressCityOrderByQuantityAsc(String pune);
 
+    List<VendorBranches> findByAddressCityOrderByQuantityDesc(String pune);
 }
