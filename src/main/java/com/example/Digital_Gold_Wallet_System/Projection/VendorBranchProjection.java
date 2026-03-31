@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Projection(name = "vendorBranchView", types = VendorBranches.class)
 public interface VendorBranchProjection {
-    Integer getBranchId();
     BigDecimal getQuantity();
     LocalDateTime getCreatedAt();
     Addresses getAddress();
