@@ -44,5 +44,4 @@ public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory
 //    // Used by TC-36,37
 //    List<TransactionHistory> findByBranchBranchIdAndCreatedAtBetween(
 //            Integer branchId, LocalDateTime from, LocalDateTime to);
-
-    List<PhysicalGoldTransactionProjection> findByUserUserIdAndTransactionType(Integer userId, TransactionType transactionType);}
+}
