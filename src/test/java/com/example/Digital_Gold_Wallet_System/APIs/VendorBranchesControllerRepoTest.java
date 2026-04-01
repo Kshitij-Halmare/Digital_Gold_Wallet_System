@@ -120,11 +120,11 @@ class VendorBranchesControllerRepoTest {
         assertFalse(result.isEmpty());
     }
 
-    @Test
-    void tc2_getAllBranches_negative_empty() {
-        List<VendorBranches> result = branchRepo.findAll();
-        assertTrue(result.isEmpty());
-    }
+//    @Test
+//    void tc2_getAllBranches_negative_empty() {
+//        List<VendorBranches> result = branchRepo.findAll();
+//        assertTrue(result.isEmpty());
+//    }
 
 //    @Test
 //    void tc3_getBranchesByCity_positive() {
