@@ -6,8 +6,9 @@ import org.springframework.data.rest.core.config.Projection;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Projection(name = "userProjection",types = Users.class)
-public interface UsersProjection {
+@Projection(name="userList", types=Users.class)
+public interface UserListProjection {
+
     Integer getUserId();
     String getName();
     String getEmail();

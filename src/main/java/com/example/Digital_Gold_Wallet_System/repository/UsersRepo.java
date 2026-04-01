@@ -1,5 +1,6 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
+import com.example.Digital_Gold_Wallet_System.Projection.UserListProjection;
 import com.example.Digital_Gold_Wallet_System.Projection.UsersProjection;
 import com.example.Digital_Gold_Wallet_System.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +11,7 @@ import java.util.List;
 
 import java.util.List;
 
-@RepositoryRestResource(path = "users")
+@RepositoryRestResource(path = "users",excerptProjection = UserListProjection.class)
 @CrossOrigin(origins = "*")
 public interface UsersRepo extends JpaRepository<Users, Integer> {
 
