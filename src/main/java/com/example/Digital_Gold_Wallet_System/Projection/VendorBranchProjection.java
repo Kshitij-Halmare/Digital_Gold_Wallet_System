@@ -2,7 +2,6 @@ package com.example.Digital_Gold_Wallet_System.Projection;
 
 import com.example.Digital_Gold_Wallet_System.entity.Addresses;
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
-import com.example.Digital_Gold_Wallet_System.entity.Vendors;
 import org.springframework.data.rest.core.config.Projection;
 
 import java.math.BigDecimal;
@@ -15,11 +14,11 @@ public interface VendorBranchProjection {
     BigDecimal getQuantity();
     LocalDateTime getCreatedAt();
 
-    AddressView getAddress();
+    AddressView getAddress();   // 👈 nested projection
     VendorView getVendors();
 
     interface AddressView {
-        Integer getAddressId();
+        Integer getAddressId();   // ✅ THIS is the fix
         String getStreet();
         String getCity();
         String getState();
