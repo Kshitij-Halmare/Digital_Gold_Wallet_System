@@ -13,7 +13,7 @@ public interface VendorPhysicalGoldTransactionProjection {
     BigDecimal getQuantity();
     LocalDateTime getCreatedAt();
 
-    UsersProjection getUser();
+    UserListProjection getUser();
 
     AddressProjection getAddress();
 

@@ -14,5 +14,5 @@ public interface VendorVirtualGoldHoldingsProjection {
     BigDecimal getQuantity();
     LocalDateTime getCreatedAt();
     HoldingStatus getHoldingStatus();
-    UsersProjection getUser();
+    UserListProjection getUser();
 }
