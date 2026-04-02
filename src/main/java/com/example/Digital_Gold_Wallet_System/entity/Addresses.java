@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.apache.catalina.User;
+import org.hibernate.annotations.Fetch;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class Addresses {
 
     @NotBlank
     private String country;
+
 
     @OneToMany(mappedBy = "address")
     private List<Users> users;
