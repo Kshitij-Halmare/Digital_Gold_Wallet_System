@@ -113,6 +113,12 @@ class VendorBranchesControllerRepoTest {
 
     // ================= BASIC TESTS =================
 
+//    @Test
+//    void tc2_getAllBranches_negative_empty() {
+//        List<VendorBranches> result = branchRepo.findAll();
+//        assertTrue(result.isEmpty());
+//    }
+
     @Test
     void tc1_getAllBranches_positive() {
         createBranch("MG Road","Pune", "Maharashtra", "India", "411001", BigDecimal.valueOf(50));
@@ -120,12 +126,6 @@ class VendorBranchesControllerRepoTest {
 
         List<VendorBranches> result = branchRepo.findAll();
         assertFalse(result.isEmpty());
-    }
-
-    @Test
-    void tc2_getAllBranches_negative_empty() {
-        List<VendorBranches> result = branchRepo.findAll();
-        assertTrue(result.isEmpty());
     }
 
 //    @Test

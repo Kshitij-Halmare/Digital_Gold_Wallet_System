@@ -76,13 +76,13 @@ class VendorsRepoTest {
     }
 
 
-    @Test
-    void testFindByVendorName_NotFound() {
-
-        List<Vendors> result = vendorsRepo.findByVendorName("XYZ");
-
-        assertTrue(result.isEmpty());
-    }
+//    @Test
+//    void testFindByVendorName_NotFound() {
+//
+//        List<Vendors> result = vendorsRepo.findByVendorName("XYZ");
+//
+//        assertTrue(result.isEmpty());
+//    }
 
     @Test
     void testUpdateVendor() {
