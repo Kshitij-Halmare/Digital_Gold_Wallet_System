@@ -6,6 +6,8 @@ import org.springframework.data.rest.core.config.Projection;
 import java.math.BigDecimal;
 @Projection(name = "vendorDetails", types = Vendors.class)
 public interface VendorProjection {
+    Integer getVendorId();
+
     String getVendorName();
 
     String getDescription();

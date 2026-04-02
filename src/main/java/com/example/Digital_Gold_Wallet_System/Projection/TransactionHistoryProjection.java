@@ -26,7 +26,11 @@ public interface TransactionHistoryProjection {
         String getName(); // adjust based on your Users entity
     }
 
+    // Optional: nested projection for branch
+    BranchInfo getBranch();
+
     interface BranchInfo {
         Integer getBranchId();
+//        String getBranchName(); // adjust based on your VendorBranches entity
     }
 }
