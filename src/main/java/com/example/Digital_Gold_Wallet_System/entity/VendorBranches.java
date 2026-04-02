@@ -24,7 +24,7 @@ public class VendorBranches {
     @Column(name = "createdAt", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "vendorId")
     private Vendors vendors;
 

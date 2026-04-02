@@ -2,6 +2,7 @@ package com.example.Digital_Gold_Wallet_System.repository;
 
 import com.example.Digital_Gold_Wallet_System.Projection.UserListProjection;
 //import com.example.Digital_Gold_Wallet_System.Projection.UsersProjection;
+import com.example.Digital_Gold_Wallet_System.Projection.UsersProjection;
 import com.example.Digital_Gold_Wallet_System.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -19,6 +20,6 @@ public interface UsersRepo extends JpaRepository<Users, Integer> {
 
     List<Users> findByEmailContainingIgnoreCase(String email);
 
-    List<UserListProjection> findAllProjectedBy();
+    List<UsersProjection> findAllProjectedBy();
 
 }
