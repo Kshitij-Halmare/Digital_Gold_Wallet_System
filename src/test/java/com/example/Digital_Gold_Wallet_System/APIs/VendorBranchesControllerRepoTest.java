@@ -1,5 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.APIs;
 
+import com.example.Digital_Gold_Wallet_System.Projection.VendorBranchProjection;
+import com.example.Digital_Gold_Wallet_System.Projection.VendorBranchesProjection;
 import com.example.Digital_Gold_Wallet_System.entity.Addresses;
 import com.example.Digital_Gold_Wallet_System.entity.TransactionHistory;
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;

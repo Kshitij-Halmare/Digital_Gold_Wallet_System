@@ -4,6 +4,7 @@ import com.example.Digital_Gold_Wallet_System.Projection.VendorBranchProjection;
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.List;
         path = "vendorBranches",
         collectionResourceRel = "vendorBranches",
         excerptProjection = VendorBranchProjection.class
-)public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
+)
+@CrossOrigin(origins = "http://localhost:9090")
+public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
 
-    List<VendorBranchProjection> findAllBy();
+    List<VendorBranches> findAll();
     List<VendorBranches> findByAddressCity(String city);
     List<VendorBranches> findByAddressState(String state);
     List<VendorBranches> findByAddressCountry(String country);
