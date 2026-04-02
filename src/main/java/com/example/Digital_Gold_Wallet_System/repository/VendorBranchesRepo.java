@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-@CrossOrigin(origins = "http://localhost:9090")
+@CrossOrigin(origins = "*")
 @RepositoryRestResource(
         path = "vendorBranches",
         collectionResourceRel = "vendorBranches",
         excerptProjection = VendorBranchProjection.class
-)public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
+)
+public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
 
-    List<VendorBranchProjection> findAllBy();
+    List<VendorBranches> findAll();
     List<VendorBranches> findByAddressCity(String city);
     List<VendorBranches> findByAddressState(String state);
     List<VendorBranches> findByAddressCountry(String country);

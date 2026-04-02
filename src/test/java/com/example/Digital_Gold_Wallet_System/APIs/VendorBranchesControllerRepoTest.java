@@ -1,5 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.APIs;
 
+import com.example.Digital_Gold_Wallet_System.Projection.VendorBranchProjection;
+import com.example.Digital_Gold_Wallet_System.Projection.VendorBranchesProjection;
 import com.example.Digital_Gold_Wallet_System.entity.Addresses;
 import com.example.Digital_Gold_Wallet_System.entity.TransactionHistory;
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
@@ -111,6 +113,12 @@ class VendorBranchesControllerRepoTest {
 
     // ================= BASIC TESTS =================
 
+//    @Test
+//    void tc2_getAllBranches_negative_empty() {
+//        List<VendorBranches> result = branchRepo.findAll();
+//        assertTrue(result.isEmpty());
+//    }
+
     @Test
     void tc1_getAllBranches_positive() {
         createBranch("MG Road","Pune", "Maharashtra", "India", "411001", BigDecimal.valueOf(50));
@@ -119,12 +127,6 @@ class VendorBranchesControllerRepoTest {
         List<VendorBranches> result = branchRepo.findAll();
         assertFalse(result.isEmpty());
     }
-
-//    @Test
-//    void tc2_getAllBranches_negative_empty() {
-//        List<VendorBranches> result = branchRepo.findAll();
-//        assertTrue(result.isEmpty());
-//    }
 
 //    @Test
 //    void tc3_getBranchesByCity_positive() {
