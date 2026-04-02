@@ -1,6 +1,5 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
-import com.example.Digital_Gold_Wallet_System.Projection.VendorBranchProjection;
 import com.example.Digital_Gold_Wallet_System.entity.Addresses;
 import com.example.Digital_Gold_Wallet_System.entity.VendorBranches;
 import com.example.Digital_Gold_Wallet_System.entity.Vendors;

@@ -1,8 +1,11 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
+import com.example.Digital_Gold_Wallet_System.Projection.VendorPhysicalGoldTransactionProjection;
 import com.example.Digital_Gold_Wallet_System.entity.PhysicalGoldTransactions;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.math.BigDecimal;
@@ -13,6 +16,9 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public interface PhysicalGoldTransactionsRepo extends JpaRepository<PhysicalGoldTransactions, Integer> {
 
+    @RestResource(path = "findByVendor")
+    List<PhysicalGoldTransactions> findByBranch_Vendors_VendorId(@Param("vendorId") Integer vendorId);
+    //List<PhysicalGoldTransactions> findByBranch_Vendors_VendorId(Integer vendorId);
     List<PhysicalGoldTransactions> findByBranch_BranchId(Integer branchId);
     List<PhysicalGoldTransactions> findByQuantity(Integer quantity);
     List<PhysicalGoldTransactions> findByDeliveryAddress_Street(String street);

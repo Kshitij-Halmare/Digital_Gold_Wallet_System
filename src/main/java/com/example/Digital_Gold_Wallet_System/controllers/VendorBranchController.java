@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/branches")
+@CrossOrigin(origins = "*")
 public class VendorBranchController {
 
     private final VendorBranchService branchService;

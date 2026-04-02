@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RepositoryRestResource(
         path = "vendorBranches",
         collectionResourceRel = "vendorBranches",
