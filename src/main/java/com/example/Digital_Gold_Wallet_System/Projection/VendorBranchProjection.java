@@ -9,8 +9,25 @@ import java.time.LocalDateTime;
 
 @Projection(name = "vendorBranchView", types = VendorBranches.class)
 public interface VendorBranchProjection {
-    Integer getBranchId();
+
+    int getBranchId();
     BigDecimal getQuantity();
     LocalDateTime getCreatedAt();
-    Addresses getAddress();
+
+    AddressView getAddress();   // 👈 nested projection
+    VendorView getVendors();
+
+    interface AddressView {
+        Integer getAddressId();   // ✅ THIS is the fix
+        String getStreet();
+        String getCity();
+        String getState();
+        String getPostalCode();
+        String getCountry();
+    }
+
+    interface VendorView {
+        Integer getVendorId();
+        String getVendorName();
+    }
 }
