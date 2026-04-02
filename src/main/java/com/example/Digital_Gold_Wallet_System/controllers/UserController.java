@@ -1,6 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.controllers;
 
 import com.example.Digital_Gold_Wallet_System.Projection.PhysicalGoldTransactionProjection;
+import com.example.Digital_Gold_Wallet_System.Projection.UserListProjection;
 import com.example.Digital_Gold_Wallet_System.Projection.UsersProjection;
 import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionType;
 import com.example.Digital_Gold_Wallet_System.repository.TransactionHistoryRepo;
