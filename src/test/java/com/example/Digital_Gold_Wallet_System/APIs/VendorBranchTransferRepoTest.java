@@ -26,6 +26,7 @@ class VendorBranchTransferRepoTest {
         address.setState("Maharashtra");
         address.setCountry("India");
         address.setPostalCode("411001");
+        address.setStreet("CAvenue");
 
         VendorBranches branch = new VendorBranches();
         branch.setQuantity(quantity);

@@ -15,18 +15,18 @@ public class Addresses {
     @Column(name = "addressId")
     private Integer addressId;
 
-//    @NotBlank
+    @NotBlank
     private String street;
-//    @NotBlank
+    @NotBlank
     private String city;
-//    @NotBlank
+    @NotBlank
     private String state;
 
     @Column(name = "postalCode")
-//    @NotBlank
+    @NotBlank
     private String postalCode;
 
-//    @NotBlank
+    @NotBlank
     private String country;
 
     @OneToMany(mappedBy = "address")

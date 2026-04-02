@@ -1,15 +1,21 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
+import com.example.Digital_Gold_Wallet_System.Projection.PhysicalGoldTransactionProjection;
+import com.example.Digital_Gold_Wallet_System.Projection.TransactionHistoryProjection;
 import com.example.Digital_Gold_Wallet_System.entity.TransactionHistory;
-import com.example.Digital_Gold_Wallet_System.entity.enums.PaymentTransactionType;
+import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionType;
 import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
+@RepositoryRestResource(path = "transaction",
+        excerptProjection = TransactionHistoryProjection.class)
+@CrossOrigin(origins = "*")
 public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory, Integer> {
     List<TransactionHistory> findByBranchBranchId(Integer branchId);
 
@@ -17,23 +23,25 @@ public interface TransactionHistoryRepo extends JpaRepository<TransactionHistory
     List<TransactionHistory> findByUserUserId(Integer userId);
 
     // Used by TC-24,25
-    List<TransactionHistory> findByTransactionType(PaymentTransactionType type);
+    List<TransactionHistory> findByTransactionType(TransactionType type);
+
+    List<PhysicalGoldTransactionProjection> findByUserUserIdAndTransactionType(Integer userId, TransactionType transactionType);
 
     // Used by TC-26,27
-    List<TransactionHistory> findByTransactionStatus(TransactionStatus status);
+//    List<TransactionHistory> findByTransactionStatus(TransactionStatus status);
+//
+//    // Used by TC-28,29
+//    List<TransactionHistory> findByCreatedAtBetween(LocalDateTime from, LocalDateTime to);
 
-    // Used by TC-28,29
-    List<TransactionHistory> findByCreatedAtBetween(LocalDateTime from, LocalDateTime to);
-
-    // Used by TC-32,33
-    List<TransactionHistory> findByBranchBranchIdAndTransactionType(
-            Integer branchId, PaymentTransactionType type);
-
-    // Used by TC-34,35
-    List<TransactionHistory> findByBranchBranchIdAndTransactionStatus(
-            Integer branchId, TransactionStatus status);
-
-    // Used by TC-36,37
-    List<TransactionHistory> findByBranchBranchIdAndCreatedAtBetween(
-            Integer branchId, LocalDateTime from, LocalDateTime to);
+//    // Used by TC-32,33
+//    List<TransactionHistory> findByBranchBranchIdAndTransactionType(
+//            Integer branchId, TransactionType type);
+//
+//    // Used by TC-34,35
+//    List<TransactionHistory> findByBranchBranchIdAndTransactionStatus(
+//            Integer branchId, TransactionStatus status);
+//
+//    // Used by TC-36,37
+//    List<TransactionHistory> findByBranchBranchIdAndCreatedAtBetween(
+//            Integer branchId, LocalDateTime from, LocalDateTime to);
 }
