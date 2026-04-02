@@ -15,6 +15,6 @@ public interface VendorPhysicalGoldTransactionProjection {
 
     UserListProjection getUser();
 
-    AddressProjection getAddress();
+    AddressProjection getDeliveryAddress();
 
 }
