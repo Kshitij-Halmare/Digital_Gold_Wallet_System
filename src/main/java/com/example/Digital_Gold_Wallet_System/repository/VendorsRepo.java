@@ -18,7 +18,6 @@ import java.util.List;
         collectionResourceRel = "vendors",
         excerptProjection = VendorProjection.class
 )
-@CrossOrigin(origins = "http://localhost:9090")
 public interface VendorsRepo extends JpaRepository<Vendors, Integer> {
     List<Vendors> findByVendorName(String vendorName);
     //List<VendorsProjection> findAllProjectedBy();
