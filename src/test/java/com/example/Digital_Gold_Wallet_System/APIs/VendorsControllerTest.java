@@ -58,16 +58,14 @@ public class VendorsControllerTest {
 
     @Test
     void tc1_getAllVendors_positive() throws Exception {
-
         List<Vendors> vendors = vendorRepo.findAll();
-
         vendorRepo.save(createVendor("Tanishq"));
         vendorRepo.save(createVendor("Kalyan"));
 
         mockMvc.perform(get("/vendors?size=1000"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("_embedded.vendors").isArray())
-                .andExpect(jsonPath("_embedded.vendors.length()").value(vendors.size() + 2));
+                .andExpect(jsonPath("_embedded.vendors.length()").value(vendors.size()+2));
     }
 
 //    @Test

@@ -1,6 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.controllers;
 
 import com.example.Digital_Gold_Wallet_System.Projection.PhysicalGoldTransactionProjection;
+import com.example.Digital_Gold_Wallet_System.Projection.UsersProjection;
 import com.example.Digital_Gold_Wallet_System.entity.enums.TransactionType;
 import com.example.Digital_Gold_Wallet_System.repository.TransactionHistoryRepo;
 import com.example.Digital_Gold_Wallet_System.repository.UsersRepo;
@@ -12,7 +13,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/user")
 public class UserController {
 
@@ -25,10 +25,10 @@ public class UserController {
     @Autowired
     private UsersRepo usersRepo;
 
-//    @GetMapping("/summary")
-//    public List<UsersProjection> getUsersSummary(){
-//        return usersRepo.findAllProjectedBy();
-//    }
+    @GetMapping("/summary")
+    public List<UsersProjection> getUsersSummary(){
+        return usersRepo.findAllProjectedBy();
+    }
 
     @PutMapping("/deposit/{userId}")
     public String depositMoney(@PathVariable Integer userId, @RequestParam BigDecimal amount){
