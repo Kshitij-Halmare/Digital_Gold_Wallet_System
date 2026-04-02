@@ -1,5 +1,7 @@
 package com.example.Digital_Gold_Wallet_System.repository;
 
+import com.example.Digital_Gold_Wallet_System.Projection.VendorProjection;
+import com.example.Digital_Gold_Wallet_System.Projection.VendorsProjection;
 import com.example.Digital_Gold_Wallet_System.entity.Vendors;
 //import com.example.Digital_Gold_Wallet_System.projection.VendorsProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +15,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RepositoryRestResource(
         path = "vendors",
-        collectionResourceRel = "vendors"
+        collectionResourceRel = "vendors",
+        excerptProjection = VendorProjection.class
 )
 public interface VendorsRepo extends JpaRepository<Vendors, Integer> {
     List<Vendors> findByVendorName(String vendorName);

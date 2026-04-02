@@ -14,9 +14,10 @@ import java.util.List;
         path = "vendorBranches",
         collectionResourceRel = "vendorBranches",
         excerptProjection = VendorBranchProjection.class
-)public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
+)
+public interface VendorBranchesRepo extends JpaRepository<VendorBranches, Integer> {
 
-    List<VendorBranchProjection> findAllBy();
+    List<VendorBranches> findAll();
     List<VendorBranches> findByAddressCity(String city);
     List<VendorBranches> findByAddressState(String state);
     List<VendorBranches> findByAddressCountry(String country);
